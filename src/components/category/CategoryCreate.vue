@@ -1,11 +1,19 @@
 <template>
     <div id="categorycreate">
-<!--        <label for="nome">Nome</label>-->
-<!--        <input id="nome" v-model="dados"><br>-->
-        <p>{{ lista }}</p>
-
-<!--        <button v-on:click="salvar()">Adicionar Categoria</button>-->
-<!--        <button v-on:click="limpar()">Limpar</button>-->
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+            </tr>
+            <tr v-for="item in lista"
+                v-bind:item="item"
+                v-bind:key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.nome}}</td>
+                <td>{{item.descricao}}</td>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -16,17 +24,17 @@
         props: ['lista'],
         data() {
             return {
-                categoria: [],
                 loading: true,
-                errored: false
+                errored: false,
+                categorias: []
             }
         },
         mounted() {
             axios
                 .get('http://localhost/wscursosonline/categoria')
                 .then(response => {
-                    this.categoria = response.data;
-                    window.console.log('Teste',response)
+                    this.lista = response.data;
+                    window.console.log('Response',response)
                 })
                 .catch(error => {
                     window.console.log(error)
