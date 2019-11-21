@@ -1,0 +1,65 @@
+/*Cursos Online - Other style configs*/
+.material-icons.md-18 { font-size: 18px; }
+
+.btn.transp { border: 0px transparent;}
+
+body, html {
+	height: 100%;
+}
+header {
+	margin-bottom: 10px;
+}
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  /*color: #2c3e50;*/
+}
+
+/*.navbar {*/
+/*	background-color: #0a5593;*/
+/*}*/
+
+/*.nav-item{*/
+/*	margin-left:15px;*/
+/*	padding: 2px;*/
+/*}*/
+
+/*.nav-item a {*/
+/*	color: #82a0b5;*/
+/*	text-decoration: none;*/
+/*	vertical-align: bottom;*/
+/*}*/
+
+/*.nav-item a:hover {*/
+/*	color: white;*/
+/*}*/
+
+/*.nav-item a.router-link-exact-active {*/
+/*	!*font-weight: bold;*!*/
+/*	font-size: 1.05rem;*/
+/*	color: white;*/
+/*}*/
+
+/*.list-group-item-title{*/
+/*	margin-top:20px;*/
+/*}*/
+
+.flex-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row wrap;
+	margin-bottom: 50px;  /*devido ao footer*/
+}
+
+.flex-container > div {
+	margin: 10px;
+	padding: 20px;
+}
+
+footer{
+	/*margin-top: 200px;*/
+}
