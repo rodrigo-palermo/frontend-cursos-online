@@ -1,14 +1,27 @@
 <template>
     <div class="cadastro">
-        <CategoryCreate></CategoryCreate>
+
+        <h3>Categoria de curso</h3>
+        <categoria-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"></categoria-form>
+        <br>
+        <h3>Lista</h3>
+        <categoria-list v-bind:is-itens-refreshed-outside="isItensRefreshed"></categoria-list>
+
     </div>
 </template>
 
 <script>
-    import CategoryCreate from "../components/category/CategoryCreate";
+    import CategoriaList from "../components/categoria/CategoriaList";
+    import CategoriaForm from "../components/categoria/CategoriaForm";
+
     export default {
         name: "Cadastro",
-        components: {CategoryCreate}
+        components: {CategoriaForm, CategoriaList},
+        data() {
+            return {
+                isItensRefreshed: false
+            }
+        }
     }
 </script>
 

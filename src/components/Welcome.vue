@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
     <p>{{ welcomeText }}</p>
   </div>
 </template>
@@ -9,7 +8,6 @@
 export default {
   name: 'Welcome',
   props: {
-    msg: String,
     welcomeText: String
   }
 }

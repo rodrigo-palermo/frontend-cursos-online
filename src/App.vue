@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <HeaderPage></HeaderPage>
-    <router-view/>
+    <main class="flex-container">
+      <router-view/>
+    </main>
     <FooterPage></FooterPage>
   </div>
 </template>
@@ -32,6 +34,7 @@
 <script>
   import FooterPage from "./components/FooterPage";
   import HeaderPage from "./components/HeaderPage";
+
   export default {
     components: {HeaderPage, FooterPage}
   }
