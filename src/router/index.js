@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Conta from '../views/Conta.vue'
+import Login from '../components/login/Login.vue'
 import Home from '../views/Home.vue'
 import Cadastro from '../views/Cadastro.vue'
 
@@ -16,6 +17,11 @@ const routes = [
     path: '/conta',
     name: 'conta',
     component: Conta
+  },
+   {
+    path: '/login',
+    name: 'login',
+    component: Login
   },
   {
     path: '/cadastro',

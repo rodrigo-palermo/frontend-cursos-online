@@ -24,13 +24,14 @@
                         <template v-slot:button-content>
                             Conta
                         </template>
-                        <div v-if="autenticado">
+<!--                        <div v-if="isLoggedIn">-->
+                        <div>
                             <b-dropdown-item to="#">Perfil</b-dropdown-item>
-                            <b-dropdown-item href="#">Desconectar</b-dropdown-item>
-                        </div>
-                        <div v-else>
+                            <b-dropdown-item @click="logout">Sair</b-dropdown-item>
+<!--                        </div>-->
+<!--                        <div v-else>-->
                             <b-dropdown-item to="/conta">Registrar-se</b-dropdown-item>
-                            <b-dropdown-item to="/conta">Entrar</b-dropdown-item>
+                            <b-dropdown-item to="/login">Entrar</b-dropdown-item>
                         </div>
 
                     </b-nav-item-dropdown>
@@ -44,11 +45,21 @@
     export default {
         name: "HeaderPage",
 
-        data() {
-            return {
-                autenticado: false
+        computed: {
+            isLoggedIn: function() {
+                return this.$store.getters.isLoggedIn
             }
-        }
+        },
+
+        methods: {
+            logout: function() {
+                this.$store.dispatch('logout')
+                    .then(() => {
+                        this.$router.push('/')
+                    })
+            }
+        },
+
     }
 
 
