@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <HeaderPage></HeaderPage>
-    <main class="flex-container">
-      <router-view/>
+    <main>
+      <b-container>
+        <router-view/>
+      </b-container>
     </main>
     <FooterPage></FooterPage>
   </div>

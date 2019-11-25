@@ -2,10 +2,12 @@
     <div class="cadastro">
 
         <h3>Categoria de curso</h3>
-        <categoria-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"></categoria-form>
+        <categoria-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"
+                        ></categoria-form>
         <br>
         <h3>Lista</h3>
-        <categoria-list v-bind:is-itens-refreshed-outside="isItensRefreshed"></categoria-list>
+        <categoria-list v-bind:is-itens-refreshed-outside="isItensRefreshed"
+                        ></categoria-list>
 
     </div>
 </template>
@@ -19,7 +21,8 @@
         components: {CategoriaForm, CategoriaList},
         data() {
             return {
-                isItensRefreshed: false
+                isItensRefreshed: false,
+                editingItemPai: {}
             }
         }
     }

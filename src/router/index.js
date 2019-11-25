@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Conta from '../views/Conta.vue'
 import Home from '../views/Home.vue'
 import Cadastro from '../views/Cadastro.vue'
 
@@ -10,6 +11,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/conta',
+    name: 'conta',
+    component: Conta
   },
   {
     path: '/cadastro',

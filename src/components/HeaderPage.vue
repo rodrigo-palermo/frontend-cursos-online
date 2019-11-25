@@ -24,8 +24,15 @@
                         <template v-slot:button-content>
                             Conta
                         </template>
-                        <b-dropdown-item href="#">Perfil</b-dropdown-item>
-                        <b-dropdown-item href="#">Desconectar</b-dropdown-item>
+                        <div v-if="autenticado">
+                            <b-dropdown-item to="#">Perfil</b-dropdown-item>
+                            <b-dropdown-item href="#">Desconectar</b-dropdown-item>
+                        </div>
+                        <div v-else>
+                            <b-dropdown-item to="/conta">Registrar-se</b-dropdown-item>
+                            <b-dropdown-item to="/conta">Entrar</b-dropdown-item>
+                        </div>
+
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -35,8 +42,16 @@
 
 <script>
     export default {
-        name: "HeaderPage"
+        name: "HeaderPage",
+
+        data() {
+            return {
+                autenticado: false
+            }
+        }
     }
+
+
 </script>
 
 <style scoped>
