@@ -31,10 +31,10 @@
         methods: {
             login: function() {
                 // const { username, password } = this;
-                let username = this.username;
-                let password = this.password;
+                let nome = this.username;
+                let senha = this.password;
                 
-                this.$store.dispatch('login', { username, password })
+                this.$store.dispatch('login', { nome, senha })
                     .then(() => {
                         this.$router.push('/')
                     })

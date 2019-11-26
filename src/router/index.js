@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 import Conta from '../views/Conta.vue'
 import Login from '../components/login/Login.vue'
 import Home from '../views/Home.vue'
@@ -26,7 +27,10 @@ const routes = [
   {
     path: '/cadastro',
     name: 'cadastro',
-    component: Cadastro
+    component: Cadastro,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/about',
@@ -40,6 +44,19 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+//verificar se ok
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
