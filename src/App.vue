@@ -39,5 +39,7 @@
 
   export default {
     components: {HeaderPage, FooterPage}
+
+
   }
 </script>
