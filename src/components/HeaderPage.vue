@@ -6,13 +6,14 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
+                <!-- NAV ITENS - LEFT -->
                 <b-navbar-nav>
                     <b-nav-item to="/">Home</b-nav-item>
                     <b-nav-item to="/cadastro">Cadastro</b-nav-item>
                     <b-nav-item to="/about">Sobre</b-nav-item>
                 </b-navbar-nav>
 
-                <!-- Right aligned nav items -->
+                <!-- NAV ITENS - RIGHT -->
                 <b-navbar-nav class="ml-auto">
                     <b-nav-form>
                         <b-form-input size="sm" class="mr-sm-2" placeholder="Pesquisar"></b-form-input>
@@ -24,14 +25,13 @@
                         <template v-slot:button-content>
                             Conta
                         </template>
-<!--                        <div v-if="isLoggedIn">-->
-                        <div>
+                        <div v-if="isLoggedIn">
                             <b-dropdown-item to="#">Perfil</b-dropdown-item>
                             <b-dropdown-item @click="logout">Sair</b-dropdown-item>
-<!--                        </div>-->
-<!--                        <div v-else>-->
+                        </div>
+                        <div v-else>
+                            <b-dropdown-item to="/login">Login</b-dropdown-item>
                             <b-dropdown-item to="/conta">Registrar-se</b-dropdown-item>
-                            <b-dropdown-item to="/login">Entrar</b-dropdown-item>
                         </div>
 
                     </b-nav-item-dropdown>
@@ -55,7 +55,7 @@
             logout: function() {
                 this.$store.dispatch('logout')
                     .then(() => {
-                        this.$router.push('/')
+                        this.$router.push('/login')
                     })
             }
         },
@@ -63,7 +63,7 @@
         created: function () {
             this.$axios.interceptors.response.use(undefined, function (err) {
                 return new Promise(function () {
-                    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+                    if (err.status === 401 && err.config /*&& !err.config.__isRetryRequest*/) {
                         this.$store.dispatch('logout')
                     }
                     throw err;

@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import store from '../store'
 import Conta from '../views/Conta.vue'
 import Login from '../components/login/Login.vue'
 import Home from '../views/Home.vue'
 import Cadastro from '../views/Cadastro.vue'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
   {
@@ -42,12 +42,12 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'history',
   routes
 })
 
-//verificar se ok
+// verificar se ok
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
