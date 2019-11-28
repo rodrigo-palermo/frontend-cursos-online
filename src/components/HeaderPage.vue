@@ -9,7 +9,9 @@
                 <!-- NAV ITENS - LEFT -->
                 <b-navbar-nav>
                     <b-nav-item to="/">Home</b-nav-item>
-                    <b-nav-item to="/cadastro">Cadastro</b-nav-item>
+                    <b-nav-item v-if="isAdmin" to="/cadastro">Cadastro</b-nav-item>
+                    <b-nav-item v-if="isProf" to="#">isProf</b-nav-item>
+                    <b-nav-item v-if="isAluno" to="#">isAluno</b-nav-item>
                     <b-nav-item to="/about">Sobre</b-nav-item>
                 </b-navbar-nav>
 
@@ -48,7 +50,16 @@
         computed: {
             isLoggedIn: function() {
                 return this.$store.getters.isLoggedIn
-            }
+            },
+            isAdmin: function() {
+                return this.$store.getters.isAdmin
+            },
+            isProf: function() {
+                return this.$store.getters.isProf
+            },
+            isAluno: function() {
+                return this.$store.getters.isAluno
+            },
         },
 
         methods: {
