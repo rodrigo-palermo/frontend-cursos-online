@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="formulario-login">
         <b-form @submit.prevent="login">
             <b-form-group>
                 <b-form-input id="input-1" v-model="username" placeholder="Login" required></b-form-input>
@@ -38,7 +38,11 @@
                     .then(() => {
                         this.$router.push('/')
                     })
-                    .catch(error => window.console.log(error))
+                    .catch(error => {
+                        window.console.log(error);
+                        window.alert(error)
+                        }
+                    )
             }
         }
     }

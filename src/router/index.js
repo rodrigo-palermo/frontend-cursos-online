@@ -4,7 +4,9 @@ import store from '../store'
 import Conta from '../views/Conta.vue'
 import Login from '../components/login/Login.vue'
 import Home from '../views/Home.vue'
-import Cadastro from '../views/Cadastro.vue'
+import Cadastro from '../views/CadastroOld.vue'
+import Categoria from '../views/Categoria.vue'
+import Curso from '../views/Curso.vue'
 
 Vue.use(Router)
 
@@ -28,6 +30,22 @@ const routes = [
     path: '/cadastro',
     name: 'cadastro',
     component: Cadastro,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/categoria',
+    name: 'categoria',
+    component: Categoria,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/curso',
+    name: 'curso',
+    component: Curso,
     meta: {
       requiresAuth: true
     }

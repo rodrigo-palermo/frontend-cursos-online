@@ -1,11 +1,37 @@
 <template>
     <div id="formulario">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-1">
+            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-11">
                 <b-form-input
-                        id="input-1"
+                        id="input-11"
                         v-model="item.id"
                         placeholder="Id"
+                        aria-disabled="true"
+                        disabled
+                ></b-form-input>
+            </b-form-group>
+            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-12" label-for="input-12">
+                <b-form-input
+                        id="input-12"
+                        v-model="item.id_categoria"
+                        placeholder="Id categoria"
+                        aria-disabled="true"
+                        disabled
+                ></b-form-input>
+            </b-form-group>
+             <b-form-group id="input-group-121" label-for="input-121">
+                <b-form-select
+                        id="input-121"
+                        v-model="selected"
+                        :options="items_fk_1"
+                        placeholder="Categoria"
+                ></b-form-select>
+            </b-form-group>
+            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-13" label-for="input-13">
+                <b-form-input
+                        id="input-13"
+                        v-model="item.id_usuario_criacao"
+                        placeholder="Id usuario criacao"
                         aria-disabled="true"
                         disabled
                 ></b-form-input>
@@ -29,6 +55,24 @@
                 ></b-form-input>
             </b-form-group>
 
+            <b-form-group id="input-group-4" label-for="input-4">
+                <b-form-input
+                        id="input-4"
+                        v-model="item.dth_criacao"
+                        aria-disabled="true"
+                        disabled
+                        placeholder="Criação"
+                ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-5" label-for="input-5">
+                <b-form-input
+                        id="input-5"
+                        v-model="item.imagem"
+                        placeholder="Imagem"
+                ></b-form-input>
+            </b-form-group>
+
             <b-button-group>
                 <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
                 <b-button type="reset" variant="info">Limpar</b-button>
@@ -40,10 +84,11 @@
 
 <script>
 
-    const url = `${process.env.VUE_APP_API_URL}/categoria`;
+    const url = `${process.env.VUE_APP_API_URL}/curso`;
+    const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
     export default {
 
-        name: 'CategoriaForm',
+        name: 'CursoForm',
 
         components: {
         },
@@ -55,6 +100,8 @@
                 item: {
                     nome: '',
                 },
+                items_fk_1: [],
+                selected: null,
                 loading: true,
                 errored: false,
                 show: true,
@@ -127,7 +174,22 @@
             this.$root.$on('editar', data => {
                 window.console.log('Dados recebidos em componente: ', data);
                 this.item = data;
+            });
+
+            this.$axios.get(url_foreign_1).then(response => {
+                this.items_fk_1 = response.data;
+                this.items_fk_1["value"] = this.items_fk_1["id"];
+                this.items_fk_1["text"] = this.items_fk_1["nome"];
+                window.console.log('Componente fk 1',this.items_fk_1);
             })
+                .catch(error => {
+                    window.console.log(error);
+                    this.saveUpdateErrored = true;
+                })
+                .finally(() => this.loading = false,
+                    // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+                );
+            this.showed = this.saveUpdateErrored === false;
         }
     }
 

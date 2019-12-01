@@ -8,12 +8,9 @@ export default new Vuex.Store({
   state: {
     //vuex state would hold our authentication status, jwt token and user information.
     status: '',
-    token: localStorage.getItem('token') || '',
-    // gravar tb em localStorage (para usar na sessao)
+    token: sessionStorage.getItem('token') || '',
     user: {},
-    admin: false,
-    prof: false,
-    aluno: false
+    perfil: sessionStorage.getItem('perfil') || '',
   },
   mutations: {
     //vuex mutations make changes to vuex store
@@ -25,9 +22,7 @@ export default new Vuex.Store({
       state.status = 'success'
       state.token = payload.token
       state.user = payload.username
-      state.admin = payload.admin
-      state.prof = payload.prof
-      state.aluno = payload.aluno
+      state.perfil = payload.perfil
     },
     auth_error(state) {
       state.status = 'error'
@@ -35,9 +30,7 @@ export default new Vuex.Store({
     logout(state) {
       state.staus = ''
       state.token = ''
-      state.admin = false
-      state.prof = false
-      state.aluno = false
+      state.perfil = ''
     }
   },
   actions: {
@@ -54,45 +47,30 @@ export default new Vuex.Store({
               const usuario_id = resp.data.id
               const username = resp.data.nome
               const perfil = resp.data.perfil
-              let admin = false
-              let prof = false
-              let aluno = false
-              localStorage.setItem('token', token)
-              axios.defaults.headers.common['Authorization'] = token
-              switch(perfil) {
-                case 'Administrador':
-                  admin = true;
-                  break;
-                case 'Professor':
-                  prof = true;
-                  break;
-                case 'Aluno':
-                  aluno = true;
-                  break;
-              }
-              let payload = {
-                "token": token,
-                "username": username,
-                "admin": admin,
-                "prof": prof,
-                "aluno": aluno
-              }
-              commit('auth_success', payload)
-              window.console.log('url post: ', auth_url)
-              window.console.log('Usuario fazendo login e enviado para ws: ', user)
-              window.console.log('Resposta do WS: ', resp)
-              window.console.log('Usuario: ', username)
-              window.console.log('Usuario id: ', usuario_id)
-              window.console.log('Perfil: ', perfil)
-              window.console.log('Token: ', token)
-              window.console.log('isAdmin: ',admin)
-              window.console.log('isProf: ',prof)
-              window.console.log('isAluno: ',aluno)
-              resolve(resp)
+
+                    sessionStorage.setItem('token', token)
+                    axios.defaults.headers.common['Authorization'] = token
+                    sessionStorage.setItem('perfil', perfil)
+                    let payload = {
+                        "token": token,
+                        "username": username,
+                        "perfil": perfil
+                    }
+                    commit('auth_success', payload)
+                    window.console.log('url post: ', auth_url)
+                    window.console.log('Usuario fazendo login e enviado para ws: ', user)
+                    window.console.log('Resposta do WS: ', resp)
+                    window.console.log('Usuario: ', username)
+                    window.console.log('Usuario id: ', usuario_id)
+                    window.console.log('Perfil: ', perfil)
+                    window.console.log('Token: ', token)
+                    resolve(resp)
+
             })
             .catch(err => {
               commit('auth_error')
-              localStorage.removeItem('token')
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('perfil')
               reject(err)
             })
       })
@@ -101,8 +79,9 @@ export default new Vuex.Store({
     logout({commit}){
       return new Promise((resolve) => {
         commit('logout')
-        window.console.log('Removendo token')
-        localStorage.removeItem('token')
+        window.console.log('Limpando sessionStorage')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('perfil')
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
@@ -116,10 +95,8 @@ export default new Vuex.Store({
     //use getter to get the value of the attributes of vuex state
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    isAdmin(state) {
-      return state.admin
-    },
-    isProf: state => state.prof,
-    isAluno: state => state.aluno
+    isAdmin: state => state.perfil === 'Administrador',
+    isProf: state => state.perfil === 'Professor',
+    isAluno: state => state.perfil === 'Aluno'
   }
 })

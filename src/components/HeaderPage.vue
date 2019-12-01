@@ -6,20 +6,34 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
-                <!-- NAV ITENS - LEFT -->
+                <!-- NAV ITEMS - LEFT -->
                 <b-navbar-nav>
                     <b-nav-item to="/">Home</b-nav-item>
-                    <b-nav-item v-if="isAdmin" to="/cadastro">Cadastro</b-nav-item>
+
+                    <b-nav-dropdown v-if="isAdmin">
+                        <template v-slot:button-content>
+                            Cadastro
+                        </template>
+                        <h6 class="dropdown-header">Cursos</h6>
+                        <b-dropdown-item to="/categoria">Categoria</b-dropdown-item>
+                        <b-dropdown-item to="/curso">Curso</b-dropdown-item>
+                        <b-dropdown-item to="/turma">Turma</b-dropdown-item>
+
+                        <h6 class="dropdown-header">Usuários</h6>
+                        <b-dropdown-item to="/perfil">Perfil</b-dropdown-item>
+                        <b-dropdown-item to="/usuario">Usuário</b-dropdown-item>
+                    </b-nav-dropdown>
+
                     <b-nav-item v-if="isProf" to="#">isProf</b-nav-item>
                     <b-nav-item v-if="isAluno" to="#">isAluno</b-nav-item>
                     <b-nav-item to="/about">Sobre</b-nav-item>
                 </b-navbar-nav>
 
-                <!-- NAV ITENS - RIGHT -->
+                <!-- NAV ITEMS - RIGHT -->
                 <b-navbar-nav class="ml-auto">
                     <b-nav-form>
                         <b-form-input size="sm" class="mr-sm-2" placeholder="Pesquisar"></b-form-input>
-                        <b-button size="sm" class="my-2 my-sm-0" type="submit">Pesquisar</b-button>
+<!--                        <b-button size="sm" class="my-2 my-sm-0" type="submit">Pesquisar</b-button>-->
                     </b-nav-form>
 
                     <b-nav-item-dropdown right>
@@ -35,7 +49,6 @@
                             <b-dropdown-item to="/login">Login</b-dropdown-item>
                             <b-dropdown-item to="/conta">Registrar-se</b-dropdown-item>
                         </div>
-
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
@@ -88,8 +101,11 @@
 </script>
 
 <style scoped>
-nav {
-    background-color: #0a5593;
-    box-shadow: 0 .25rem .25rem rgba(0,0,0,.25),inset 0 -1px 5px rgba(0,0,0,.25);
-}
+    nav {
+        background-color: #0a5593;
+        box-shadow: 0 .25rem .25rem rgba(0,0,0,.25),inset 0 -1px 5px rgba(0,0,0,.25);
+    }
+    .dropdown-header {
+        color: royalblue;
+    }
 </style>
