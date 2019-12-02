@@ -63,7 +63,6 @@
 
         components:{},
 
-        // props: ['items'],
         props: {
             isItensRefreshedOutside: {
                 type: Boolean

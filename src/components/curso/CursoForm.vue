@@ -10,30 +10,62 @@
                         disabled
                 ></b-form-input>
             </b-form-group>
-            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-12" label-for="input-12">
-                <b-form-input
-                        id="input-12"
-                        v-model="item.id_categoria"
-                        placeholder="Id categoria"
-                        aria-disabled="true"
-                        disabled
-                ></b-form-input>
+
+            <b-form-group>
+<!--                REFATORADO do abaixo, mas não funciona com dois :selected-->
+<!--                <select class="custom-select" v-model="item.id_categoria">&ndash;&gt;-->
+<!--                    <option disabled :selected="!item.id">Selecione uma opção</option>-->
+<!--                    <option v-for="categoria in categorias"-->
+<!--                            :key="categoria.id"-->
+<!--                            :value="categoria.id"-->
+<!--                            :selected="item.id && item.id_categoria === categoria.id"-->
+<!--                    >{{ categoria.nome }}-->
+<!--                    </option>-->
+<!--                </select>-->
+
+<!--                FUNCIONANOD, mas tentar refatorado acima sem IF ELS-->
+<!--                CRIAR-->
+                <select v-if="!item.id" class="custom-select" v-model="item.id_categoria">
+                    <option disabled selected>Selecione uma opção</option>
+                    <option v-for="categoria in categorias"
+                    :key="categoria.id">
+                        {{ categoria.nome }}
+                    </option>
+                </select>
+<!--                EDITAR-->
+                <select v-else class="custom-select" v-model="item.id_categoria">
+                    <option disabled>Selecione uma opção</option>
+                    <option v-for="categoria in categorias"
+                            :key="categoria.id"
+                            :value="categoria.id"
+                            :selected="item.id_categoria === categoria.id"
+                            >{{ categoria.nome }}
+                    </option>
+                </select>
             </b-form-group>
-             <b-form-group id="input-group-121" label-for="input-121">
-                <b-form-select
-                        id="input-121"
-                        v-model="selected"
-                        :options="items_fk_1"
-                        placeholder="Categoria"
-                ></b-form-select>
-            </b-form-group>
+
+<!--            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-12" label-for="input-12">-->
+<!--                <b-form-input-->
+<!--                        id="input-12"-->
+<!--                        v-model="item.id_categoria"-->
+<!--                        placeholder="Id categoria"-->
+<!--                        aria-disabled="true"-->
+<!--                        disabled-->
+<!--                ></b-form-input>-->
+<!--            </b-form-group>-->
+<!--            <b-form-group id="input-group-121" label-for="input-121">-->
+<!--                <b-form-select-->
+<!--                        id="input-121"-->
+<!--                        v-model="selected"-->
+<!--                        :options="categorias"-->
+<!--                        placeholder="Categoria"-->
+<!--                ></b-form-select>-->
+<!--            </b-form-group>-->
             <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-13" label-for="input-13">
                 <b-form-input
                         id="input-13"
                         v-model="item.id_usuario_criacao"
                         placeholder="Id usuario criacao"
-                        aria-disabled="true"
-                        disabled
                 ></b-form-input>
             </b-form-group>
 
@@ -85,12 +117,21 @@
 <script>
 
     const url = `${process.env.VUE_APP_API_URL}/curso`;
-    const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
+    // const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
+    import { mapState } from 'vuex';
     export default {
 
         name: 'CursoForm',
 
         components: {
+        },
+
+        computed: mapState({
+            categorias: state => state.categorias.all
+        }),
+
+        created() {
+            this.$store.dispatch('categorias/getAllCategorias')
         },
 
         // props: ['editingItemPai'],
@@ -99,9 +140,15 @@
             return {
                 item: {
                     nome: '',
+                    id_categoria: '',
+                    descricao: '',
+                    id_usuario_criacao: '',
+                    dth_criacao: '',
+                    imagem: ''
                 },
-                items_fk_1: [],
-                selected: null,
+                // items_fk_1: [],
+                //selected: '',  //?
+                //selected_option: 'selected',
                 loading: true,
                 errored: false,
                 show: true,
@@ -176,20 +223,21 @@
                 this.item = data;
             });
 
-            this.$axios.get(url_foreign_1).then(response => {
-                this.items_fk_1 = response.data;
-                this.items_fk_1["value"] = this.items_fk_1["id"];
-                this.items_fk_1["text"] = this.items_fk_1["nome"];
-                window.console.log('Componente fk 1',this.items_fk_1);
-            })
-                .catch(error => {
-                    window.console.log(error);
-                    this.saveUpdateErrored = true;
-                })
-                .finally(() => this.loading = false,
-                    // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                );
-            this.showed = this.saveUpdateErrored === false;
+
+            // this.$axios.get(url_foreign_1).then(response => {
+            //     this.items_fk_1 = response.data;
+            //     this.items_fk_1["value"] = this.items_fk_1["id"];
+            //     this.items_fk_1["text"] = this.items_fk_1["nome"];
+            //     window.console.log('Componente fk 1',this.items_fk_1);
+            // })
+            //     .catch(error => {
+            //         window.console.log(error);
+            //         this.saveUpdateErrored = true;
+            //     })
+            //     .finally(() => this.loading = false,
+            //         // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            //     );
+            // this.showed = this.saveUpdateErrored === false;
         }
     }
 
