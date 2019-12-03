@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div id="formulario">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-11">
@@ -26,15 +27,16 @@
 <!--                FUNCIONANOD, mas tentar refatorado acima sem IF ELS-->
 <!--                CRIAR-->
                 <select v-if="!item.id" class="custom-select" v-model="item.id_categoria">
-                    <option disabled selected>Selecione uma opção</option>
+                    <option disabled selected="selected">Selecione uma Categoria</option>
                     <option v-for="categoria in categorias"
-                    :key="categoria.id">
+                    :key="categoria.id"
+                    :value="categoria.id">
                         {{ categoria.nome }}
                     </option>
                 </select>
 <!--                EDITAR-->
                 <select v-else class="custom-select" v-model="item.id_categoria">
-                    <option disabled>Selecione uma opção</option>
+                    <option disabled>Selecione uma Categoria</option>
                     <option v-for="categoria in categorias"
                             :key="categoria.id"
                             :value="categoria.id"
@@ -92,8 +94,8 @@
                         id="input-4"
                         v-model="item.dth_criacao"
                         aria-disabled="true"
-                        disabled
-                        placeholder="Criação"
+                        
+                        placeholder="Data de Criação"
                 ></b-form-input>
             </b-form-group>
 
@@ -111,6 +113,10 @@
             </b-button-group>
 
         </b-form>
+         
+    
+    </div>
+    <b-alert show variant="danger" v-if="this.$store.getters.isAdmin">Item a criar: {{ item }}</b-alert>
     </div>
 </template>
 
@@ -143,11 +149,11 @@
                     id_categoria: '',
                     descricao: '',
                     id_usuario_criacao: '',
-                    dth_criacao: '',
+                    // dth_criacao: '',
                     imagem: ''
                 },
                 // items_fk_1: [],
-                //selected: '',  //?
+                //selected: '',  //interfere no if do :selected de id_categoria?
                 //selected_option: 'selected',
                 loading: true,
                 errored: false,
@@ -158,6 +164,7 @@
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();
+                window.scrollTo({bottom:0,left: 0,behavior: 'smooth'});
                 if(this.item.id == null) {
                     //CREATE
                     this.$axios

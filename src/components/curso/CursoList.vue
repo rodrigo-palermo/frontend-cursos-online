@@ -50,7 +50,7 @@
         </div>
 
 <!--        <p>is Linha selecionada: {{ rowSelected }}</p>-->
-        <p>Linha selecionada: {{ selected }}</p>
+        <b-alert show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
     </div>
 </template>
 
@@ -160,6 +160,7 @@
                 //this.editingItem = this.selected;
                 //window.console.log('Enviado item para editar: ', this.editingItem);
                 this.$root.$emit('editar', this.selected);
+                window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
             onDelete() {
