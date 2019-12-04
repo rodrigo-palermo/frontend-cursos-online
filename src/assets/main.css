@@ -74,6 +74,15 @@ header {
 	flex-flow: row wrap;
 }
 
+/*bootstrap-vue customize*/
+.table td, .table th {
+	vertical-align: middle;
+}
+
 footer{
 	/*margin-top: 200px;*/
+}
+
+.admin-alert {
+	margin: 10px;
 }

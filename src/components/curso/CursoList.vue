@@ -50,7 +50,7 @@
         </div>
 
 <!--        <p>is Linha selecionada: {{ rowSelected }}</p>-->
-        <b-alert show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
     </div>
 </template>
 

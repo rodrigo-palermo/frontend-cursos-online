@@ -1,40 +1,42 @@
 <template>
-    <div id="formulario">
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-1">
-                <b-form-input
-                        id="input-1"
-                        v-model="item.id"
-                        placeholder="Id"
-                        aria-disabled="true"
-                        disabled
-                ></b-form-input>
-            </b-form-group>
+    <div>
+        <div id="formulario">
+            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-1">
+                    <b-form-input
+                            id="input-1"
+                            v-model="item.id"
+                            placeholder="Id"
+                            aria-disabled="true"
+                            disabled
+                    ></b-form-input>
+                </b-form-group>
 
-            <b-form-group id="input-group-2" label-for="input-2">
-                <b-form-input
-                        id="input-2"
-                        v-model="item.nome"
-                        required
-                        placeholder="Nome"
-                ></b-form-input>
-            </b-form-group>
+                <b-form-group id="input-group-2" label-for="input-2">
+                    <b-form-input
+                            id="input-2"
+                            v-model="item.nome"
+                            required
+                            placeholder="Nome"
+                    ></b-form-input>
+                </b-form-group>
 
-            <b-form-group id="input-group-3" label-for="input-3">
-                <b-form-input
-                        id="input-3"
-                        v-model="item.descricao"
-                        required
-                        placeholder="Descrição"
-                ></b-form-input>
-            </b-form-group>
+                <b-form-group id="input-group-3" label-for="input-3">
+                    <b-form-input
+                            id="input-3"
+                            v-model="item.descricao"
+                            required
+                            placeholder="Descrição"
+                    ></b-form-input>
+                </b-form-group>
 
-            <b-button-group>
-                <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
-                <b-button type="reset" variant="info">Limpar</b-button>
-            </b-button-group>
-
-        </b-form>
+                <b-button-group>
+                    <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
+                    <b-button type="reset" variant="info">Limpar</b-button>
+                </b-button-group>
+            </b-form>
+        </div>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Item a criar: {{ item }}</b-alert>
     </div>
 </template>
 
