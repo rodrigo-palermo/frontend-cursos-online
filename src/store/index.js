@@ -2,12 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import categorias from "./modules/categorias";
+import cursos from "./modules/cursos";
+import perfils from "./modules/perfils";
+import usuarios from "./modules/usuarios";
+import turmas from "./modules/turmas";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        categorias
+        categorias, cursos, perfils, usuarios, turmas
     },
 
     state: {

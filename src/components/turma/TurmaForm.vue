@@ -21,15 +21,6 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group id="input-group-3" label-for="input-3">
-                    <b-form-input
-                            id="input-3"
-                            v-model="item.descricao"
-                            required
-                            placeholder="Descrição"
-                    ></b-form-input>
-                </b-form-group>
-
                 <b-button-group>
                     <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
                     <b-button type="reset" variant="info">Limpar</b-button>
@@ -45,17 +36,17 @@
     import { mapState } from 'vuex';
     export default {
 
-        name: 'CategoriaForm',
+        name: 'TurmaForm',
 
         components: {
         },
 
         computed: mapState({
-            categorias: state => state.categorias.all
+            turmas: state => state.turmas.all
         }),
 
         created() {
-            this.$store.dispatch('categorias/getAllCategorias')
+            this.$store.dispatch('turmas/getAllTurmas')
         },
 
         data() {
@@ -75,19 +66,7 @@
                 evt.preventDefault();
                 if(this.item.id == null) {
                     //CREATE
-                    // this.$axios
-                    //     .post(url, this.item)
-                    //     .then(
-                    //         this.limpar(),
-                    //         // this.refresh(),
-                    //         window.console.log('Funcao salvar. Enviando objeto ao WS: ',this.item)
-                    //     )
-                    //     .catch(error => {
-                    //         window.console.log(error);
-                    //         this.errored = true;
-                    //     })
-                    //     .finally(() => this.verifyOperation());
-                    this.$store.dispatch('categorias/submitCategoria', this.item);
+                    this.$store.dispatch('turmas/submitTurma', this.item);
                     window.console.log('Funcao salvar. Enviando objeto ao WS: ',this.item);
                     this.limpar();
                     this.verifyOperation()
@@ -95,20 +74,7 @@
 
                 } else {
                     // EDIT
-                    // let id = this.item.id;
-                    // this.$axios
-                    //     .put(url+'/'+id, this.item)
-                    //     .then(
-                    //         this.limpar(),
-                    //         window.console.log('Funcao atualizar. Enviando objeto ao WS: ', this.item)
-                    //     )
-                    //     .catch(error => {
-                    //         window.console.log(error);
-                    //         this.errored = true
-                    //         }
-                    //     )
-                    //     .finally(() => this.verifyOperation());
-                    this.$store.dispatch('categorias/updateCategoria', this.item);
+                    this.$store.dispatch('turmas/updateTurma', this.item);
                     window.console.log('Funcao atualizar. Enviando objeto ao WS: ', this.item)
                     this.limpar();
                     this.verifyOperation()

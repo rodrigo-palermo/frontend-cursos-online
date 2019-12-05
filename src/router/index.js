@@ -7,6 +7,9 @@ import Home from '../views/Home.vue'
 import Cadastro from '../views/CadastroOld.vue'
 import Categoria from '../views/Categoria.vue'
 import Curso from '../views/Curso.vue'
+import Perfil from '../views/Perfil.vue'
+import Usuario from '../views/Usuario.vue'
+import Turma from '../views/Turma.vue'
 
 Vue.use(Router)
 
@@ -46,6 +49,30 @@ const routes = [
     path: '/curso',
     name: 'curso',
     component: Curso,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/perfil',
+    name: 'perfil',
+    component: Perfil,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/usuario',
+    name: 'usuario',
+    component: Usuario,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/turma',
+    name: 'turma',
+    component: Turma,
     meta: {
       requiresAuth: true
     }

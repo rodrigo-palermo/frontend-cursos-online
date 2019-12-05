@@ -1,9 +1,8 @@
 <template>
     <div id="lista">
-
         <span v-if="loading"> Carregando dados...</span>
         <span v-else><br></span>
-<!--        <div v-if="showed && !saveUpdateErrored" class="overflow-auto">-->
+<!--        v-if="showed && !saveUpdateErrored"-->
         <div v-if="true" class="overflow-auto">
             <b-pagination v-model="currentPage"
                           :total-rows="rows"
@@ -17,7 +16,7 @@
 
             <b-table id="itemsList" striped hover
                      :fields="fields"
-                     :items="items"
+                     :items='usuarios'
                      :per-page="perPage"
                      :current-page="currentPage"
                      small
@@ -56,11 +55,10 @@
 </template>
 
 <script>
-    const url = `${process.env.VUE_APP_API_URL}/curso`;
-    const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
+    import { mapGetters, mapState/*, mapActions*/ } from 'vuex';
     export default {
 
-        name: 'CursoList',
+        name: 'UsuarioList',
 
         components:{},
 
@@ -73,6 +71,11 @@
             }
         },
 
+        created() {
+            this.$store.dispatch('usuarios/getAllUsuarios');
+            window.console.log('CREATED - list',this.usuarios)
+        },
+
         data() {
             return {
                 loading: true,
@@ -81,16 +84,9 @@
                 deleteErrored: false,
 
                 //bootstrap-vue table
-                items: [],
-                items_fk_1: [],
                 fields: [
                     //'id',
                     'nome',
-                    {key: 'categoria_nome', label: 'Categoria'},
-                    {key: 'descricao', label: 'Descrição'},
-                    {key: 'descricao', label: 'Descrição'},
-                    {key: 'dth_criacao', label: 'Criação'},
-                    'imagem',
                     {key: 'acoes', label: 'Ações'},
                 ],
 
@@ -101,90 +97,57 @@
                 //bootstrap-vue select
                 selectMode: 'single',
                 selected: {},
-
             }
-        },
-
-        mounted() {
-            return this.refresh();
         },
 
         computed: {
             rows() {
-                return this.items.length
-            }
+                return this.usuarios.length
+            },
+
+            ...mapState({
+                usuarios: state => state.usuarios.all
+            }),
+            ...mapGetters({
+                usuariosFiltro: 'getUsuarios'
+            })
         },
 
+
         methods: {
+            // ...mapActions({'refreshUsuarios': 'usuarios/getAllCategories'}),
             inicializar() {
                 //para reinicializar variáveis se ação vinda de outro componente
                 this.loading = true;
                 // this.saveUpdateErrored = false;
                 if(this.saveUpdateErrored){
                     this.showed = false;
-                    this.items = [];
-                    // window.alert('Inicializando show e saveUpdateErrored. Esvaziando itens.');
+                    // this.items = [];
+                    // window.alert('Inicializanso show e saveUpdateErrored. Esvaziando itens.');
                     this.saveUpdateErrored = false;
                 }
             },
 
-            refresh: function() {
-                this.$axios.get(url).then(response => {
-                    this.items = response.data;
-                    window.console.log('Response',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.$axios.get(url_foreign_1).then(response => {
-                    this.items_fk_1 = response.data;
-                    window.console.log('Response fk 1',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.showed = this.saveUpdateErrored === false;
-            },
             onRowSelected(item) {
                 this.selected = item[0];
             },
 
-            onEdit() {
+            async onEdit() {
+                //this.editingItem = this.selected;
+                //window.console.log('Enviado item para editar: ', this.editingItem);
                 this.$root.$emit('editar', this.selected);
                 window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
-            onDelete() {
-                let id = this.selected.id;
-                this.$axios
-                    .delete(url+'/'+id)
-                    .then(
-                        window.console.log('Deletando item ',id)
-                    ).catch(error => {
-                    window.console.log(error);
-                    this.deleteErrored = true;
-                    })
-                    .finally(() => this.refresh());
-
-                    if(!this.deleteErrored){
-                        window.console.log('Item deletado.')
-                    }
+            async onDelete() {
+                this.$store.dispatch('usuarios/deleteUsuario', this.selected.id);
+                window.console.log('Funcao deletar. Id enviado ao WS: ', this.selected.id)
             }
         },
 
         watch: {
             isItensRefreshedOutside: function() {
                 this.inicializar();
-                this.refresh();
-                this.refresh();
                 window.console.log('Data changed!', this.isItensRefreshedOutside);
             }
         }
