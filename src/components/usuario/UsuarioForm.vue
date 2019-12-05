@@ -12,12 +12,54 @@
                     ></b-form-input>
                 </b-form-group>
 
+                <b-form-group>
+
+                    <select v-if="!item.id" class="custom-select" v-model="item.id_perfil">
+                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
+                    <option value="" disabled>Selecione o Perfil</option>
+                        <option v-for="perfil in perfils"
+                                :key="perfil.id"
+                                :value="perfil.id">
+                            {{ perfil.nome }}
+                        </option>
+                    </select>
+                    <!--                EDITAR-->
+                    <select v-else class="custom-select" v-model="item.id_categoria">
+                        <option value="" disabled>Selecione o Perfil</option>
+                    
+                        <option v-for="perfil in perfils"
+                                :key="perfil.id"
+                                :value="perfil.id"
+                                :selected="item.id_perfil === perfil.id"
+                        >{{ perfil.nome }}
+                        </option>
+                    </select>
+                </b-form-group>
+
                 <b-form-group id="input-group-2" label-for="input-2">
                     <b-form-input
                             id="input-2"
                             v-model="item.nome"
                             required
                             placeholder="Nome"
+                    ></b-form-input>
+                </b-form-group>
+
+                <b-form-group id="input-group-3" label-for="input-3">
+                    <b-form-input
+                            id="input-3"
+                            v-model="item.email"
+                            required
+                            placeholder="E-mail"
+                    ></b-form-input>
+                </b-form-group>
+
+                <b-form-group id="input-group-4" label-for="input-4">
+                    <b-form-input
+                            id="input-4"
+                            v-model="item.senha"
+                            required
+                            placeholder="Senha"
                     ></b-form-input>
                 </b-form-group>
 
@@ -42,18 +84,21 @@
         },
 
         computed: mapState({
-            usuarios: state => state.usuarios.all
+            usuarios: state => state.usuarios.all,
+            perfils: state => state.perfils.all
         }),
 
         created() {
-            this.$store.dispatch('usuarios/getAllUsuarios')
+            this.$store.dispatch('usuarios/getAllUsuarios'),
+            this.$store.dispatch('perfils/getAllPerfils')
         },
 
         data() {
             return {
                 item: {
                     nome: '',
-                    descricao: '',
+                    senha: '',
+                    email: '',
                 },
                 loading: true,
                 errored: false,

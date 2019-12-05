@@ -13,9 +13,9 @@
                 </b-form-group>
 
                 <b-form-group>
-
                     <select v-if="!item.id" class="custom-select" v-model="item.id_categoria">
-                        <option disabled selected="selected">Selecione uma Categoria</option>
+                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
+                    <option value="" disabled>Selecione uma Categoria</option>
                         <option v-for="categoria in categorias"
                                 :key="categoria.id"
                                 :value="categoria.id">
@@ -24,12 +24,37 @@
                     </select>
                     <!--                EDITAR-->
                     <select v-else class="custom-select" v-model="item.id_categoria">
-                        <option disabled>Selecione uma Categoria</option>
+                        <option value="" disabled>Selecione uma Categoria</option>
+                    
                         <option v-for="categoria in categorias"
                                 :key="categoria.id"
                                 :value="categoria.id"
                                 :selected="item.id_categoria === categoria.id"
                         >{{ categoria.nome }}
+                        </option>
+                    </select>
+                </b-form-group>
+
+                <b-form-group>
+
+                    <select v-if="!item.id" class="custom-select" v-model="item.id_usuario_criacao">
+                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
+                    <option value="" disabled>Selecione o Tutor</option>
+                        <option v-for="usuario in usuarios"
+                                :key="usuario.id"
+                                :value="usuario.id">
+                            {{ usuario.nome }}
+                        </option>
+                    </select>
+                    <!--                EDITAR-->
+                    <select v-else class="custom-select" v-model="item.id_categoria">
+                        <option value="" disabled>Selecione uma Categoria</option>
+                    
+                        <option v-for="usuario in usuarios"
+                                :key="usuario.id"
+                                :value="usuario.id"
+                                :selected="item.id_usuario_criacao === usuario.id"
+                        >{{ usuario.nome }}
                         </option>
                     </select>
                 </b-form-group>
@@ -101,11 +126,13 @@
 
         computed: mapState({
             categorias: state => state.categorias.all,
+            usuarios: state => state.usuarios.all,
             cursos: state => state.cursos.all
         }),
 
         created() {
             this.$store.dispatch('categorias/getAllCategorias'),
+            this.$store.dispatch('usuarios/getAllUsuarios'),
             this.$store.dispatch('cursos/getAllCursos')
         },
 
@@ -124,7 +151,11 @@
                 loading: true,
                 errored: false,
                 show: true,
+            
             }
+            //     options: [
+            //                   { value: null, text: 'Selecione uma Categoria' },
+            //                           ]
         },
 
         methods: {

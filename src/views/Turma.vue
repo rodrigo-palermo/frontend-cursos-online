@@ -1,7 +1,7 @@
 <template>
     <div class="turma">
 
-        <h3>Turma de usuário</h3>
+        <h3>Turma</h3>
 <!--        <turma-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"-->
         <turma-form
         ></turma-form>

@@ -1,7 +1,7 @@
 <template>
     <div class="usuario">
 
-        <h3>Usuario de usuário</h3>
+        <h3>Usuário</h3>
 <!--        <usuario-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"-->
         <usuario-form
         ></usuario-form>

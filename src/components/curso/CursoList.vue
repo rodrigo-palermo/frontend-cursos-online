@@ -58,6 +58,7 @@
 <script>
     const url = `${process.env.VUE_APP_API_URL}/curso`;
     const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
+    const url_foreign_2 = `${process.env.VUE_APP_API_URL}/usuario`;
     export default {
 
         name: 'CursoList',
@@ -83,11 +84,12 @@
                 //bootstrap-vue table
                 items: [],
                 items_fk_1: [],
+                items_fk_2: [],
                 fields: [
                     //'id',
                     'nome',
                     {key: 'categoria_nome', label: 'Categoria'},
-                    {key: 'descricao', label: 'Descrição'},
+                    // {key: 'descricao', label: 'Descrição'},
                     {key: 'descricao', label: 'Descrição'},
                     {key: 'dth_criacao', label: 'Criação'},
                     'imagem',
@@ -143,6 +145,17 @@
                 this.$axios.get(url_foreign_1).then(response => {
                     this.items_fk_1 = response.data;
                     window.console.log('Response fk 1',response);
+                })
+                    .catch(error => {
+                        window.console.log(error);
+                        this.saveUpdateErrored = true;
+                    })
+                    .finally(() => this.loading = false,
+                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+                    );
+                this.$axios.get(url_foreign_2).then(response => {
+                    this.items_fk_2 = response.data;
+                    window.console.log('Response fk 2',response);
                 })
                     .catch(error => {
                         window.console.log(error);

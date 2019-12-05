@@ -85,8 +85,11 @@
 
                 //bootstrap-vue table
                 fields: [
-                    //'id',
+                    'id',
+                    'id_perfil',
                     'nome',
+                    'email',
+                    'senha',
                     {key: 'acoes', label: 'Ações'},
                 ],
 
