@@ -1,9 +1,9 @@
 <template>
     <div id="lista">
-
         <span v-if="loading"> Carregando dados...</span>
         <span v-else><br></span>
-        <div v-if="showed && !saveUpdateErrored" class="overflow-auto">
+<!--        v-if="showed && !saveUpdateErrored"-->
+        <div v-if="true" class="overflow-auto">
             <b-pagination v-model="currentPage"
                           :total-rows="rows"
                           :per-page="perPage"
@@ -16,7 +16,7 @@
 
             <b-table id="itemsList" striped hover
                      :fields="fields"
-                     :items="items"
+                     :items='categorias'
                      :per-page="perPage"
                      :current-page="currentPage"
                      small
@@ -50,19 +50,19 @@
         </div>
 
 <!--        <p>is Linha selecionada: {{ rowSelected }}</p>-->
-        <p>Linha selecionada: {{ selected }}</p>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
     </div>
 </template>
 
 <script>
-    const url = `${process.env.VUE_APP_API_URL}/categoria`;
+    // import categorias from "../../store/modules/categorias";
+    import { mapGetters, mapState/*, mapActions*/ } from 'vuex';
     export default {
 
         name: 'CategoriaList',
 
         components:{},
 
-        // props: ['items'],
         props: {
             isItensRefreshedOutside: {
                 type: Boolean
@@ -70,6 +70,11 @@
             editingItem: {
                 type: Object
             }
+        },
+
+        created() {
+            this.$store.dispatch('categorias/getAllCategorias');
+            window.console.log('CREATED - list',this.categorias)
         },
 
         data() {
@@ -80,7 +85,6 @@
                 deleteErrored: false,
 
                 //bootstrap-vue table
-                items: [],
                 fields: [
                     //'id',
                     'nome',
@@ -95,80 +99,88 @@
                 //bootstrap-vue select
                 selectMode: 'single',
                 selected: {},
-
             }
-        },
-
-        mounted() {
-            return this.refresh();
         },
 
         computed: {
             rows() {
-                return this.items.length
-            }
+                return this.categorias.length
+            },
+
+            ...mapState({
+                categorias: state => state.categorias.all
+            }),
+            ...mapGetters({
+                categoriasFiltro: 'getCategorias'
+            })
         },
 
+
         methods: {
+            // ...mapActions({'refreshCategorias': 'categorias/getAllCategories'}),
             inicializar() {
                 //para reinicializar variáveis se ação vinda de outro componente
                 this.loading = true;
                 // this.saveUpdateErrored = false;
                 if(this.saveUpdateErrored){
                     this.showed = false;
-                    this.items = [];
+                    // this.items = [];
                     // window.alert('Inicializanso show e saveUpdateErrored. Esvaziando itens.');
                     this.saveUpdateErrored = false;
                 }
             },
 
-            refresh: function() {
-                this.$axios.get(url).then(response => {
-                    this.items = response.data;
-                    window.console.log('Response',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.showed = this.saveUpdateErrored === false;
-            },
+            // refresh: function() {
+            //     // this.$axios.get(url).then(response => {
+            //     //     this.items = response.data;
+            //     //     window.console.log('Response',response);
+            //     // })
+            //     //     .catch(error => {
+            //     //         window.console.log(error);
+            //     //         this.saveUpdateErrored = true;
+            //     //     })
+            //     //     .finally(() => this.loading = false,
+            //     //         // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            //     //     );
+            //     // this.showed = this.saveUpdateErrored === false;
+            // },
+
             onRowSelected(item) {
                 this.selected = item[0];
             },
 
-            onEdit() {
+            async onEdit() {
                 //this.editingItem = this.selected;
                 //window.console.log('Enviado item para editar: ', this.editingItem);
                 this.$root.$emit('editar', this.selected);
+                window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
-            onDelete() {
-                let id = this.selected.id;
-                this.$axios
-                    .delete(url+'/'+id)
-                    .then(
-                        window.console.log('Deletando item ',id)
-                    ).catch(error => {
-                    window.console.log(error);
-                    this.deleteErrored = true;
-                    })
-                    .finally(() => this.refresh());
-
-                    if(!this.deleteErrored){
-                        window.console.log('Item deletado.')
-                    }
+            async onDelete() {
+                // let id = this.selected.id;
+                // this.$axios
+                //     .delete(url+'/'+id)
+                //     .then( () =>
+                //         window.console.log('Deletando item ',id)
+                //     ).catch(error => {
+                //     window.console.log(error);
+                //     this.deleteErrored = true;
+                //     })
+                //     // .finally(() => {});
+                //
+                //     if(!this.deleteErrored){
+                //         window.console.log('Item deletado.')
+                //     }
+                this.$store.dispatch('categorias/deleteCategoria', this.selected.id);
+                window.console.log('Funcao deletar. Id enviado ao WS: ', this.selected.id)
             }
         },
 
         watch: {
             isItensRefreshedOutside: function() {
                 this.inicializar();
-                this.refresh();
-                this.refresh();
+                // this.refresh();
+                // this.refresh();
                 window.console.log('Data changed!', this.isItensRefreshedOutside);
             }
         }
