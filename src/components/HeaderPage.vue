@@ -12,7 +12,7 @@
 
                     <b-nav-dropdown v-if="isAdmin">
                         <template v-slot:button-content>
-                            Cadastro
+                            Administrador
                         </template>
                         <h6 class="dropdown-header">Cursos</h6>
                         <b-dropdown-item to="/categoria">Categoria</b-dropdown-item>
@@ -24,8 +24,25 @@
                         <b-dropdown-item to="/usuario">Usuário</b-dropdown-item>
                     </b-nav-dropdown>
 
-                    <b-nav-item v-if="isProf" to="#">isProf</b-nav-item>
-                    <b-nav-item v-if="isAluno" to="#">isAluno</b-nav-item>
+                    <b-nav-dropdown v-if="isProf">
+                        <template v-slot:button-content>
+                            Professor
+                        </template>
+                        <h6 class="dropdown-header">Cursos</h6>
+                        <b-dropdown-item to="/curso">Criar/Editar Cursos</b-dropdown-item>
+
+                        <h6 class="dropdown-header">Turma</h6>
+                        <b-dropdown-item to="/turma">Criar/Editar Turmas</b-dropdown-item>
+                    </b-nav-dropdown>
+
+                    <b-nav-dropdown v-if="isAluno">
+                        <template v-slot:button-content>
+                            Aluno
+                        </template>
+                        <h6 class="dropdown-header">Cursos</h6>
+                        <b-dropdown-item to="/curso">Ver Cursos</b-dropdown-item>
+                    </b-nav-dropdown>
+
                     <b-nav-item to="/about">Sobre</b-nav-item>
                 </b-navbar-nav>
 

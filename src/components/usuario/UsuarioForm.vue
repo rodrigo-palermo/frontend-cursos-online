@@ -13,20 +13,8 @@
                 </b-form-group>
 
                 <b-form-group>
-
-                    <select v-if="!item.id" class="custom-select" v-model="item.id_perfil">
-                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
-                    <option value="" disabled>Selecione o Perfil</option>
-                        <option v-for="perfil in perfils"
-                                :key="perfil.id"
-                                :value="perfil.id">
-                            {{ perfil.nome }}
-                        </option>
-                    </select>
-                    <!--                EDITAR-->
-                    <select v-else class="custom-select" v-model="item.id_categoria">
+                    <select required id="input-6" class="custom-select" v-model="item.id_perfil">
                         <option value="" disabled>Selecione o Perfil</option>
-                    
                         <option v-for="perfil in perfils"
                                 :key="perfil.id"
                                 :value="perfil.id"
@@ -51,6 +39,7 @@
                             v-model="item.email"
                             required
                             placeholder="E-mail"
+                            type="email"
                     ></b-form-input>
                 </b-form-group>
 
@@ -97,6 +86,7 @@
             return {
                 item: {
                     nome: '',
+                    id_perfil: "",
                     senha: '',
                     email: '',
                 },
@@ -127,7 +117,7 @@
             },
 
             limpar: function () {
-                this.item = {};
+                this.item = {"id_perfil": ""};
             },
 
             verifyOperation() {

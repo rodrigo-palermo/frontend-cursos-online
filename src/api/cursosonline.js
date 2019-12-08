@@ -71,6 +71,19 @@ export default {
         // this.showed = this.saveUpdateErrored === false;
     },
 
+    getCursosDoProfessor(id, callback){
+        axios.get(url+'/cursosdoprofessor/'+id)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
     postCurso(item, callback){
         axios.post(url+'/curso', item)
             .then( response => callback(response.data))
@@ -170,6 +183,19 @@ export default {
     //USUARIOS
     getUsuarios(callback){
         axios.get(url+'/usuario')
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
+    getUsuariosPorPerfil(perfil, callback){
+        axios.get(url+'/usuariosporperfil/'+perfil)
             .then( response => callback(response.data))
             .catch(error => {
                 window.console.log(error);

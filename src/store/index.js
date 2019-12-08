@@ -20,6 +20,7 @@ export default new Vuex.Store({
         token: sessionStorage.getItem('token') || '',
         user: {},
         perfil: sessionStorage.getItem('perfil') || '',
+        userId: sessionStorage.getItem('userId') || '',
     },
 
     mutations: {
@@ -33,6 +34,7 @@ export default new Vuex.Store({
             state.token = payload.token
             state.user = payload.username
             state.perfil = payload.perfil
+            state.userId = payload.userId
         },
         auth_error(state) {
             state.status = 'error'
@@ -41,6 +43,7 @@ export default new Vuex.Store({
             state.staus = ''
             state.token = ''
             state.perfil = ''
+            state.userId = ''
         }
     },
 
@@ -55,24 +58,26 @@ export default new Vuex.Store({
                 axios.post(auth_url,user)
                     .then(resp => {
                         const token = resp.data.token
-                        const usuario_id = resp.data.id
+                        const userId = resp.data.id
                         const username = resp.data.nome
                         const perfil = resp.data.perfil
 
                         sessionStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
                         sessionStorage.setItem('perfil', perfil)
+                        sessionStorage.setItem('userId', userId)
                         let payload = {
                             "token": token,
                             "username": username,
-                            "perfil": perfil
+                            "perfil": perfil,
+                            "userId": userId
                         }
                         commit('auth_success', payload)
                         window.console.log('url post: ', auth_url)
                         window.console.log('Usuario fazendo login e enviado para ws: ', user)
                         window.console.log('Resposta do WS: ', resp)
                         window.console.log('Usuario: ', username)
-                        window.console.log('Usuario id: ', usuario_id)
+                        window.console.log('Usuario id: ', userId)
                         window.console.log('Perfil: ', perfil)
                         window.console.log('Token: ', token)
                         resolve(resp)
@@ -82,6 +87,7 @@ export default new Vuex.Store({
                         commit('auth_error')
                         sessionStorage.removeItem('token')
                         sessionStorage.removeItem('perfil')
+                        sessionStorage.removeItem('userId')
                         reject(err)
                     })
             })
@@ -93,6 +99,7 @@ export default new Vuex.Store({
                 window.console.log('Limpando sessionStorage')
                 sessionStorage.removeItem('token')
                 sessionStorage.removeItem('perfil')
+                sessionStorage.removeItem('userId')
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })
@@ -106,8 +113,8 @@ export default new Vuex.Store({
         authStatus: state => state.status,
         isAdmin: state => state.perfil === 'Administrador',
         isProf: state => state.perfil === 'Professor',
-        isAluno: state => state.perfil === 'Aluno'
-
+        isAluno: state => state.perfil === 'Aluno',
+        userId: state => state.userId
 
     }
 })

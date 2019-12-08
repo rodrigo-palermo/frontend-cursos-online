@@ -17,7 +17,7 @@
 
             <b-table id="itemsList" striped hover
                      :fields="fields"
-                     :items="items"
+                     :items="cursos"
                      :per-page="perPage"
                      :current-page="currentPage"
                      small
@@ -56,9 +56,9 @@
 </template>
 
 <script>
-    const url = `${process.env.VUE_APP_API_URL}/curso`;
-    const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
-    const url_foreign_2 = `${process.env.VUE_APP_API_URL}/usuario`;
+    import { mapGetters, mapState } from 'vuex';
+    // const url_foreign_1 = `${process.env.VUE_APP_API_URL}/categoria`;
+    // const url_foreign_2 = `${process.env.VUE_APP_API_URL}/usuario`;
     export default {
 
         name: 'CursoList',
@@ -74,6 +74,15 @@
             }
         },
 
+        created() {
+            if(this.$store.getters.isAdmin)
+                this.$store.dispatch('cursos/getAllCursos');
+            else if(this.$store.getters.isProf)
+                this.$store.dispatch('cursos/getAllCursosDoProfessor', this.$store.getters.userId);
+            this.$store.dispatch('categorias/getAllCategorias');
+            this.$store.dispatch('usuarios/getAllUsuarios')
+        },
+
         data() {
             return {
                 loading: true,
@@ -82,14 +91,12 @@
                 deleteErrored: false,
 
                 //bootstrap-vue table
-                items: [],
-                items_fk_1: [],
-                items_fk_2: [],
+                // items_fk_1: [],
+                // items_fk_2: [],
                 fields: [
                     //'id',
                     'nome',
                     {key: 'categoria_nome', label: 'Categoria'},
-                    // {key: 'descricao', label: 'Descrição'},
                     {key: 'descricao', label: 'Descrição'},
                     {key: 'dth_criacao', label: 'Criação'},
                     'imagem',
@@ -107,97 +114,88 @@
             }
         },
 
-        mounted() {
-            return this.refresh();
-        },
+        // mounted() {
+        //     return this.refresh();
+        // },
 
         computed: {
             rows() {
-                return this.items.length
-            }
+                return this.cursos.length
+            },
+
+            ...mapState({
+                cursos: state => state.cursos.all,
+                //cursos: state => state.cursos.cursosDoProfessor,
+                items_fk_1: state => state.categorias.all,
+                items_fk_2: state => state.usuarios.all
+
+            }),
+
+            ...mapGetters({
+                cursosFiltro: 'getCursos'
+            })
         },
 
         methods: {
-            inicializar() {
-                //para reinicializar variáveis se ação vinda de outro componente
-                this.loading = true;
-                // this.saveUpdateErrored = false;
-                if(this.saveUpdateErrored){
-                    this.showed = false;
-                    this.items = [];
-                    // window.alert('Inicializando show e saveUpdateErrored. Esvaziando itens.');
-                    this.saveUpdateErrored = false;
-                }
-            },
+            // inicializar() {
+            //     //para reinicializar variáveis se ação vinda de outro componente
+            //     this.loading = true;
+            //     // this.saveUpdateErrored = false;
+            //     if(this.saveUpdateErrored){
+            //         this.showed = false;
+            //         this.items = [];
+            //         // window.alert('Inicializando show e saveUpdateErrored. Esvaziando itens.');
+            //         this.saveUpdateErrored = false;
+            //     }
+            // },
 
-            refresh: function() {
-                this.$axios.get(url).then(response => {
-                    this.items = response.data;
-                    window.console.log('Response',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.$axios.get(url_foreign_1).then(response => {
-                    this.items_fk_1 = response.data;
-                    window.console.log('Response fk 1',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.$axios.get(url_foreign_2).then(response => {
-                    this.items_fk_2 = response.data;
-                    window.console.log('Response fk 2',response);
-                })
-                    .catch(error => {
-                        window.console.log(error);
-                        this.saveUpdateErrored = true;
-                    })
-                    .finally(() => this.loading = false,
-                        // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
-                    );
-                this.showed = this.saveUpdateErrored === false;
-            },
+            // refresh: function() {
+            //
+            //     this.$axios.get(url_foreign_1).then(response => {
+            //         this.items_fk_1 = response.data;
+            //         window.console.log('Response fk 1',response);
+            //     })
+            //         .catch(error => {
+            //             window.console.log(error);
+            //             this.saveUpdateErrored = true;
+            //         })
+            //         .finally(() => this.loading = false,
+            //             // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            //         );
+            //     this.$axios.get(url_foreign_2).then(response => {
+            //         this.items_fk_2 = response.data;
+            //         window.console.log('Response fk 2',response);
+            //     })
+            //         .catch(error => {
+            //             window.console.log(error);
+            //             this.saveUpdateErrored = true;
+            //         })
+            //         .finally(() => this.loading = false,
+            //             // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            //         );
+            //     this.showed = this.saveUpdateErrored === false;
+            // },
             onRowSelected(item) {
                 this.selected = item[0];
             },
 
-            onEdit() {
+            async onEdit() {
                 this.$root.$emit('editar', this.selected);
                 window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
-            onDelete() {
-                let id = this.selected.id;
-                this.$axios
-                    .delete(url+'/'+id)
-                    .then(
-                        window.console.log('Deletando item ',id)
-                    ).catch(error => {
-                    window.console.log(error);
-                    this.deleteErrored = true;
-                    })
-                    .finally(() => this.refresh());
+            async onDelete() {
+                this.$store.dispatch('cursos/deleteCurso', this.selected.id);
+                window.console.log('Funcao deletar. Id enviado ao WS: ', this.selected.id)
 
-                    if(!this.deleteErrored){
-                        window.console.log('Item deletado.')
-                    }
             }
         },
 
         watch: {
             isItensRefreshedOutside: function() {
-                this.inicializar();
-                this.refresh();
-                this.refresh();
+                // this.inicializar();
+                // this.refresh();
+                // this.refresh();
                 window.console.log('Data changed!', this.isItensRefreshedOutside);
             }
         }

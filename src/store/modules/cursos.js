@@ -2,13 +2,18 @@ import cursosonline from "../../api/cursosonline";
 
 // initial state
 const state = () => ({
-    all: []
+    all: [],
+    cursosDoProfessor: []
 });
 
 // getters
 const getters = {
     getCursos: state => {
         return state.all
+    },
+
+    getCursosDoProfessor: state => {
+        return state.cursosDoProfessor
     }
 };
 
@@ -16,6 +21,12 @@ const getters = {
 const actions = {
     getAllCursos ({ commit }) {
         cursosonline.getCursos( cursos => {
+            commit('setCursos', cursos)
+        })
+    },
+
+    getAllCursosDoProfessor ({ commit }, id) {
+        cursosonline.getCursosDoProfessor( id, cursos => {
             commit('setCursos', cursos)
         })
     },
@@ -43,7 +54,8 @@ const actions = {
 // mutations
 const mutations = {
     setCursos (state, cursos) {
-        state.all = cursos
+        state.all = cursos;
+        state.cursosDoProfessor = cursos;     //testes
     },
 
 };

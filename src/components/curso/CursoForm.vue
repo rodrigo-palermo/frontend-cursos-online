@@ -2,9 +2,9 @@
     <div>
         <div id="formulario">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-11">
+                <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-1">
                     <b-form-input
-                            id="input-11"
+                            id="input-1"
                             v-model="item.id"
                             placeholder="Id"
                             aria-disabled="true"
@@ -13,58 +13,29 @@
                 </b-form-group>
 
                 <b-form-group>
-                    <select v-if="!item.id" class="custom-select" v-model="item.id_categoria">
-                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
+                    <select required id="input-6" class="custom-select" v-model="item.id_categoria">
                     <option value="" disabled>Selecione uma Categoria</option>
                         <option v-for="categoria in categorias"
                                 :key="categoria.id"
-                                :value="categoria.id">
+                                :value="categoria.id"
+                                selected="item.id_categoria === categoria.id">
                             {{ categoria.nome }}
                         </option>
                     </select>
-                    <!--                EDITAR-->
-                    <select v-else class="custom-select" v-model="item.id_categoria">
-                        <option value="" disabled>Selecione uma Categoria</option>
-                    
-                        <option v-for="categoria in categorias"
-                                :key="categoria.id"
-                                :value="categoria.id"
-                                :selected="item.id_categoria === categoria.id"
-                        >{{ categoria.nome }}
-                        </option>
-                    </select>
                 </b-form-group>
 
-                <b-form-group>
+                <b-form-group  v-if="this.$store.getters.isAdmin">
 
-                    <select v-if="!item.id" class="custom-select" v-model="item.id_usuario_criacao">
-                    <!--    <option disabled selected="selected">Selecione uma Categoria</option> -->
-                    <option value="" disabled>Selecione o Tutor</option>
-                        <option v-for="usuario in usuarios"
-                                :key="usuario.id"
-                                :value="usuario.id">
-                            {{ usuario.nome }}
+                    <select required id="input-8" class="custom-select" v-model="item.id_usuario_criacao">
+                        <option value="" disabled>Selecione o Professor</option>
+                        <option v-for="professor in professores"
+                                :key="professor.id"
+                                :value="professor.id"
+                                :selected="item.id_usuario_criacao === professor.id">
+                            {{ professor.nome }}
                         </option>
                     </select>
-                    <!--                EDITAR-->
-                    <select v-else class="custom-select" v-model="item.id_categoria">
-                        <option value="" disabled>Selecione uma Categoria</option>
-                    
-                        <option v-for="usuario in usuarios"
-                                :key="usuario.id"
-                                :value="usuario.id"
-                                :selected="item.id_usuario_criacao === usuario.id"
-                        >{{ usuario.nome }}
-                        </option>
-                    </select>
-                </b-form-group>
 
-                <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-13" label-for="input-13">
-                    <b-form-input
-                            id="input-13"
-                            v-model="item.id_usuario_criacao"
-                            placeholder="Id usuario criacao"
-                    ></b-form-input>
                 </b-form-group>
 
                 <b-form-group id="input-group-2" label-for="input-2">
@@ -90,18 +61,27 @@
                             id="input-4"
                             v-model="item.dth_criacao"
                             aria-disabled="true"
-
+                            disabled
                             placeholder="Data de Criação"
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group id="input-group-5" label-for="input-5">
-                    <b-form-input
-                            id="input-5"
-                            v-model="item.imagem"
-                            placeholder="Imagem"
-                    ></b-form-input>
-                </b-form-group>
+<!--                <b-form-group id="input-group-5" label-for="input-5">-->
+<!--                    <b-form-input-->
+<!--                            id="input-5"-->
+<!--                            v-model="item.imagem"-->
+<!--                            placeholder="Imagem"-->
+<!--                    ></b-form-input>-->
+<!--                </b-form-group>-->
+
+                <b-form-file
+                            v-model="file"
+                            accept="image/jpeg, image/png, image/gif"
+                            :state="Boolean(file)"
+                            placeholder="Escolha uma imagem"
+                            drop-placeholder="Jogue o arquivo aqui..."
+                ></b-form-file>
+                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div>
 
                 <b-button-group>
                     <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
@@ -126,24 +106,26 @@
 
         computed: mapState({
             categorias: state => state.categorias.all,
-            usuarios: state => state.usuarios.all,
+            professores: state => state.usuarios.professores,
             cursos: state => state.cursos.all
         }),
 
         created() {
             this.$store.dispatch('categorias/getAllCategorias'),
-            this.$store.dispatch('usuarios/getAllUsuarios'),
-            this.$store.dispatch('cursos/getAllCursos')
+            // this.$store.dispatch('usuarios/getAllUsuarios'),
+            this.$store.dispatch('usuarios/getAllProfessores','professor')
+            // this.$store.dispatch('cursos/getAllCursos')
         },
 
         data() {
             return {
+                file: null,
                 item: {
                     nome: '',
                     id_categoria: '',
                     descricao: '',
                     id_usuario_criacao: '',
-                    // dth_criacao: '',
+                    dth_criacao: '',
                     imagem: ''
                 },
                 //selected: '',  //interfere no if do :selected de id_categoria?
@@ -163,6 +145,10 @@
                 evt.preventDefault();
                 if(this.item.id == null) {
                     //CREATE
+                    if(this.$store.getters.isProf)
+                        this.item.id_usuario_criacao = this.$store.getters.userId
+                    let date = new Date(Date.now());
+                    this.item.dth_criacao = date.toLocaleString();
                     this.$store.dispatch('cursos/submitCurso', this.item);
                     window.console.log('Funcao salvar. Enviando objeto ao WS: ',this.item);
                     this.limpar();
@@ -179,7 +165,7 @@
             },
 
             limpar: function () {
-                this.item = {};
+                this.item = {"id_categoria": "", "id_usuario_criacao": ""};
             },
 
             verifyOperation() {
