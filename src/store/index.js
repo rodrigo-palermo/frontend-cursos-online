@@ -6,12 +6,13 @@ import cursos from "./modules/cursos";
 import perfils from "./modules/perfils";
 import usuarios from "./modules/usuarios";
 import turmas from "./modules/turmas";
+import turmastemusuarios from "./modules/turmastemusuarios";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
-        categorias, cursos, perfils, usuarios, turmas
+        categorias, cursos, perfils, usuarios, turmas, turmastemusuarios
     },
 
     state: {

@@ -314,4 +314,59 @@ export default {
             );
         // this.showed = this.saveUpdateErrored === false;
     },
+
+
+    //TURMA TEM USUARIOS
+    getTurmasTemUsuarios(callback){
+        axios.get(url+'/turmatemusuario')
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
+    postTurmaTemUsuario(item, callback){
+        axios.post(url+'/turmatemusuario', item)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
+    putTurmaTemUsuario(item, callback){
+        const id = item.id;
+        axios.put(url+'/turmatemusuario/'+id, item)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
+    delTurmaTemUsuario(id, callback){
+        axios.delete(url+'/turmatemusuario/'+id)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
 }

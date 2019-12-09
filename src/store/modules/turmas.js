@@ -43,12 +43,13 @@ const actions = {
         )
     },
 
-    deleteTurma ({ dispatch }, item) {
-        cursosonline.delTurma( item,
+    deleteTurma ({ dispatch }, id) {
+        cursosonline.delTurma( id,
             () => dispatch('getAllTurmas')
 
-        );
-        dispatch('getAllTurmasDoCurso', item.id_curso)
+        )
+        // ;
+        // dispatch('getAllTurmasDoCurso', item.id_curso)
 
     },
 

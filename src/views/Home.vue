@@ -18,7 +18,7 @@
 
       >
 
-          <div >
+          <div>
               <b-button @click="mostrarDescricao(curso.id)" variant="info" size="sm">Detalhes</b-button>
               <b-button @click="inscreverCurso(curso.id)" variant="primary" size="sm">Increver-se</b-button>
           </div>
@@ -95,10 +95,11 @@ export default {
       },
 
         inscreverCurso(cursoId) {
-            if(!this.$store.getters.isLoggedIn) {
-                window.alert('Faça login ou crie uma conta.');
+            if(!this.$store.getters.isLoggedIn || !this.$store.getters.isAluno) {
+                window.alert('Faça login ou crie uma conta Aluno.');
             } else {
-                window.alert('Curso escolhido id: ' + cursoId);
+                window.console.log('Curso escolhido id: ',cursoId);
+                window.console.log('Aluno id: ',this.$store.getters.userId);
             }
       },
     }

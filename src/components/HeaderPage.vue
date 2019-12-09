@@ -59,7 +59,7 @@
                             Conta
                         </template>
                         <div v-if="isLoggedIn">
-                            <b-dropdown-item to="#">Perfil</b-dropdown-item>
+<!--                            <b-dropdown-item to="#">Perfil</b-dropdown-item>-->
                             <b-dropdown-item @click="logout">Sair</b-dropdown-item>
                         </div>
                         <div v-else>

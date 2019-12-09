@@ -135,6 +135,10 @@
                     this.item.dth_criacao = date.toLocaleString();
                     this.$store.dispatch('turmas/submitTurma', this.item);
                     window.console.log('Funcao salvar. Enviando objeto ao WS: ',this.item);
+                    let id_professor = this.$store.getters.userId;
+                    let item_turmaTemusuario = {"id_turma": this.item.id, "id_usuario": id_professor};
+                    this.$store.dispatch('turmastemusuarios/submitTurmaTemUsuario', item_turmaTemusuario);
+                    window.console.log('Funcao atribuir Professor em turma.');
                     this.verifyOperation();
                     this.limpar();
                     // this.refresh
