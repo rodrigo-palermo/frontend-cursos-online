@@ -23,6 +23,7 @@
 
         data() {
             return {
+                errored: false,
                 username: '',
                 password: '',
             }
@@ -40,9 +41,16 @@
                     })
                     .catch(error => {
                         window.console.log(error);
-                        window.alert(error)
+                        this.errored = true;
+                        // window.alert(error);
                         }
-                    )
+                    ).finally(() => {
+                        if(this.errored){
+                            window.alert('Usuário e/ou senha incorretos.');
+                            this.errored = false;
+                        }
+
+                })
             }
         }
     }

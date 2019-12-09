@@ -96,7 +96,14 @@ footer{
 }
 
 .card {
+	/*max-width: calc(25% - 30px);*/
 	max-width: 250px;
-	cursor: pointer;
+	min-width: 200px;
+	/*cursor: pointer;*/
 }
+
+/*.card {*/
+/*	max-width: 250px;*/
+/*	*/
+/*}*/
 

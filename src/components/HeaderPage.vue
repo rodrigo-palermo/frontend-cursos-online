@@ -64,7 +64,7 @@
                         </div>
                         <div v-else>
                             <b-dropdown-item to="/login">Login</b-dropdown-item>
-                            <b-dropdown-item to="/conta">Registrar-se</b-dropdown-item>
+                            <b-dropdown-item to="/register">Registrar-se</b-dropdown-item>
                         </div>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>

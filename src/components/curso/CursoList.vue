@@ -122,8 +122,8 @@
             },
 
             ...mapState({
-                cursos: state => state.cursos.all,
-                //cursos: state => state.cursos.cursosDoProfessor,
+                // cursos: state => state.cursos.all,
+                cursos: state => state.cursos.cursosDoProfessor,
                 items_fk_1: state => state.categorias.all,
                 items_fk_2: state => state.usuarios.all
 

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
-import Conta from '../views/Conta.vue'
+import Register from '../components/login/Register.vue'
 import Login from '../components/login/Login.vue'
 import Home from '../views/Home.vue'
 import Cadastro from '../views/CadastroOld.vue'
@@ -20,9 +20,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/conta',
-    name: 'conta',
-    component: Conta
+    path: '/register',
+    name: 'register',
+    component: Register
   },
    {
     path: '/login',

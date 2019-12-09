@@ -44,7 +44,10 @@ export default new Vuex.Store({
             state.token = ''
             state.perfil = ''
             state.userId = ''
-        }
+        },
+        register_request(state) {
+            state.status = 'loading'
+        },
     },
 
     actions: {
@@ -102,6 +105,27 @@ export default new Vuex.Store({
                 sessionStorage.removeItem('userId')
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
+            })
+        },
+
+        register({ commit }, user){
+            const register_url = `${process.env.VUE_APP_API_URL}/register`;
+            return new Promise((resolve, reject) => {
+                commit('register_request')
+                // axios({url: auth_url, data: user, method:'POST'})
+                axios.post(register_url,user)
+                    .then(resp => {
+
+                        window.console.log('Usuario registrado', user);
+
+                        resolve(resp)
+
+                    })
+                    .catch(err => {
+                        // commit('register_error')
+                        window.console.log('Erro ao registrar', user);
+                        reject(err)
+                    })
             })
         },
 

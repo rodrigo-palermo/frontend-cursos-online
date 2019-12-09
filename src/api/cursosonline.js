@@ -59,7 +59,7 @@ export default {
 
     //CURSOS
     getCursos(callback){
-        axios.get(url+'/curso')
+        axios.get(url+'/cursosfree')
             .then( response => callback(response.data))
             .catch(error => {
                 window.console.log(error);
