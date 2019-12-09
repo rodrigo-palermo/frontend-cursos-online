@@ -2,13 +2,18 @@ import cursosonline from "../../api/cursosonline";
 
 // initial state
 const state = () => ({
-    all: []
+    all: [],
+    turmasDoCurso: []
 });
 
 // getters
 const getters = {
     getTurmas: state => {
         return state.all
+    },
+
+    getTurmasDoCurso: state => {
+        return state.turmasDoCurso
     }
 };
 
@@ -17,6 +22,12 @@ const actions = {
     getAllTurmas ({ commit }) {
         cursosonline.getTurmas( turmas => {
             commit('setTurmas', turmas)
+        })
+    },
+
+    getAllTurmasDoCurso ({ commit }, id) {
+        cursosonline.getTurmasDoCurso( id, turmas => {
+            commit('setTurmasDoCurso', turmas)
         })
     },
 
@@ -35,7 +46,10 @@ const actions = {
     deleteTurma ({ dispatch }, item) {
         cursosonline.delTurma( item,
             () => dispatch('getAllTurmas')
-        )
+
+        );
+        dispatch('getAllTurmasDoCurso', item.id_curso)
+
     },
 
 };
@@ -43,8 +57,14 @@ const actions = {
 // mutations
 const mutations = {
     setTurmas (state, turmas) {
-        state.all = turmas
+        state.all = turmas;
     },
+
+    setTurmasDoCurso (state, turmas) {
+        state.turmasDoCurso = turmas;
+    },
+
+
 
 };
 

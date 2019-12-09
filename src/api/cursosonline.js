@@ -262,6 +262,19 @@ export default {
         // this.showed = this.saveUpdateErrored === false;
     },
 
+    getTurmasDoCurso(id, callback){
+        axios.get(url+'/turmasdocurso/'+id)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
     postTurma(item, callback){
         axios.post(url+'/turma', item)
             .then( response => callback(response.data))

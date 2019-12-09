@@ -3,7 +3,8 @@ import cursosonline from "../../api/cursosonline";
 // initial state
 const state = () => ({
     all: [],
-    cursosDoProfessor: []
+    cursosDoProfessor: [],
+    lastCursoIdInserted: null
 });
 
 // getters
@@ -14,7 +15,7 @@ const getters = {
 
     getCursosDoProfessor: state => {
         return state.cursosDoProfessor
-    }
+    },
 };
 
 // actions
@@ -27,7 +28,7 @@ const actions = {
 
     getAllCursosDoProfessor ({ commit }, id) {
         cursosonline.getCursosDoProfessor( id, cursos => {
-            commit('setCursos', cursos)
+            commit('setCursosDoProfessor', cursos)
         })
     },
 
@@ -55,8 +56,15 @@ const actions = {
 const mutations = {
     setCursos (state, cursos) {
         state.all = cursos;
-        state.cursosDoProfessor = cursos;     //testes
     },
+
+    setCursosDoProfessor (state, cursos) {
+        state.cursosDoProfessor = cursos;
+    },
+
+    setLastCursoIdInserted (state, id) {
+        state.lastCursoIdInserted = id;
+    }
 
 };
 

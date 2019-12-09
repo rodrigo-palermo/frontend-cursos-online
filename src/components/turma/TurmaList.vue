@@ -16,7 +16,7 @@
 
             <b-table id="itemsList" striped hover
                      :fields="fields"
-                     :items='turmas'
+                     :items='turmasDoCurso'
                      :per-page="perPage"
                      :current-page="currentPage"
                      small
@@ -50,7 +50,7 @@
         </div>
 
 <!--        <p>is Linha selecionada: {{ rowSelected }}</p>-->
-        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
+        <b-alert class="admin-alert" show variant="danger" v-if="app_env">Linha selecionada: {{ selected }}</b-alert>
     </div>
 </template>
 
@@ -71,13 +71,32 @@
             }
         },
 
+        computed: {
+            rows() {
+                return this.turmasDoCurso.length
+            },
+
+            ...mapState({
+                turmasDoCurso: state => state.turmas.turmasDoCurso,
+                currentCursoId: state => state.cursos.currentCursoId
+            }),
+            ...mapGetters({
+                turmasFiltro: 'getTurmas'
+            })
+        },
+
         created() {
-            this.$store.dispatch('turmas/getAllTurmas');
-            window.console.log('CREATED - list',this.turmas)
+            if(this.currentCursoId)
+                this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
+            else
+                this.$store.state.turmasDoCurso = []
+            // window.console.log('LIST Created: CURRENT turmasDoCurso:', this.$store.state.turmasDoCurso);
+            window.console.log('LIST Created: CURRENT State turmasDoCurso:', this.$store.state.turmasDoCurso);
         },
 
         data() {
             return {
+                app_env: process.env.VUE_APP_ENV_SUBTITLE,
                 loading: true,
                 showed: false,
                 saveUpdateErrored: false,
@@ -87,6 +106,10 @@
                 fields: [
                     //'id',
                     'nome',
+                    {key: 'curso_nome', label: 'Curso'},
+                    {key: 'descricao', label: 'Descrição'},
+                    {key: 'dth_criacao', label: 'Criação'},
+                    'imagem',
                     {key: 'acoes', label: 'Ações'},
                 ],
 
@@ -99,20 +122,6 @@
                 selected: {},
             }
         },
-
-        computed: {
-            rows() {
-                return this.turmas.length
-            },
-
-            ...mapState({
-                turmas: state => state.turmas.all
-            }),
-            ...mapGetters({
-                turmasFiltro: 'getTurmas'
-            })
-        },
-
 
         methods: {
             // ...mapActions({'refreshTurmas': 'turmas/getAllCategories'}),

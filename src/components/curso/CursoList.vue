@@ -91,8 +91,6 @@
                 deleteErrored: false,
 
                 //bootstrap-vue table
-                // items_fk_1: [],
-                // items_fk_2: [],
                 fields: [
                     //'id',
                     'nome',

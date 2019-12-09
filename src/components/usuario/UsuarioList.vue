@@ -86,7 +86,7 @@
                 //bootstrap-vue table
                 fields: [
                     'id',
-                    'id_perfil',
+                    {key: 'perfil_nome', label: 'Perfil'},
                     'nome',
                     'email',
                     'senha',

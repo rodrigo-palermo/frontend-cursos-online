@@ -66,13 +66,13 @@
                     ></b-form-input>
                 </b-form-group>
 
-<!--                <b-form-group id="input-group-5" label-for="input-5">-->
-<!--                    <b-form-input-->
-<!--                            id="input-5"-->
-<!--                            v-model="item.imagem"-->
-<!--                            placeholder="Imagem"-->
-<!--                    ></b-form-input>-->
-<!--                </b-form-group>-->
+                <b-form-group id="input-group-5" label-for="input-5">
+                    <b-form-input
+                            id="input-5"
+                            v-model="item.imagem"
+                            placeholder="Imagem"
+                    ></b-form-input>
+                </b-form-group>
 
                 <b-form-file
                             v-model="file"
@@ -81,7 +81,7 @@
                             placeholder="Escolha uma imagem"
                             drop-placeholder="Jogue o arquivo aqui..."
                 ></b-form-file>
-                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div>
+                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div><br>
 
                 <b-button-group>
                     <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
