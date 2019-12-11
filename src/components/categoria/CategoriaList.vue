@@ -1,6 +1,6 @@
 <template>
     <div id="lista">
-        <span v-if="loading"> Carregando dados...</span>
+        <span v-if="loading"> </span>
         <span v-else><br></span>
 <!--        v-if="showed && !saveUpdateErrored"-->
         <div v-if="true" class="overflow-auto">
@@ -9,7 +9,8 @@
                           :per-page="perPage"
                           aria-controls="itemsList"
                           size="sm"
-            >
+            align="right"
+>
             </b-pagination>
 
 <!--            <p class="mt-3">Página atual: {{ currentPage }}</p>-->
@@ -153,7 +154,7 @@
                 //this.editingItem = this.selected;
                 //window.console.log('Enviado item para editar: ', this.editingItem);
                 this.$root.$emit('editar', this.selected);
-                window.scrollTo({top:0,left: 0,behavior: 'smooth'});
+                //window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
             async onDelete() {

@@ -239,6 +239,9 @@ export default {
             .then( response => callback(response.data))
             .catch(error => {
                 window.console.log(error);
+                if(error.response.status == 412)
+                    window.alert('Erro ao excluir registro.'+
+                                '\nMensagem do servidor: '+error.response.data);
                 // this.saveUpdateErrored = true;
             })
             .finally(() => this.loading = false,

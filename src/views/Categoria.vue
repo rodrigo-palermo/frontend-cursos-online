@@ -1,17 +1,19 @@
 <template>
     <div class="categoria">
-
-        <h3>Categoria de curso</h3>
-<!--        <categoria-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"-->
-        <categoria-form
-        ></categoria-form>
-        <br>
-        <hr>
-        <h3>Lista</h3>
-<!--        <categoria-list v-bind:is-itens-refreshed-outside="isItensRefreshed"-->
-        <categoria-list
-        ></categoria-list>
-
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3>Categoria de curso</h3>
+                    <categoria-form
+                    ></categoria-form>
+                </b-col>
+                <b-col>
+                    <h3>Lista</h3>
+                    <categoria-list
+                    ></categoria-list>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 

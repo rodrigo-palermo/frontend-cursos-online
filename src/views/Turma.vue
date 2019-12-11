@@ -1,17 +1,20 @@
 <template>
     <div class="turma">
-
-        <h3>Turma</h3>
-<!--        <turma-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"-->
-        <turma-form
-        ></turma-form>
-        <br>
-        <hr>
-        <h3>Lista</h3>
-<!--        <turma-list v-bind:is-itens-refreshed-outside="isItensRefreshed"-->
-        <turma-list
-        ></turma-list>
-
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3>Turma</h3>
+                    <p>Selecione o curso para criar ou ver as turmas existentes.</p>
+                    <turma-form
+                    ></turma-form>
+                </b-col>
+                <b-col>
+                    <h3></h3>
+                    <turma-list
+                    ></turma-list>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 

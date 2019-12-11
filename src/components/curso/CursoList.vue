@@ -1,15 +1,17 @@
 <template>
     <div id="lista">
 
-        <span v-if="loading"> Carregando dados...</span>
+        <span v-if="loading"> </span>
         <span v-else><br></span>
 <!--        <div v-if="showed && !saveUpdateErrored" class="overflow-auto">-->
         <div v-if="true" class="overflow-auto">
             <b-pagination v-model="currentPage"
+
                           :total-rows="rows"
                           :per-page="perPage"
                           aria-controls="itemsList"
                           size="sm"
+                          align="right"
             >
             </b-pagination>
 
@@ -93,16 +95,17 @@
                 //bootstrap-vue table
                 fields: [
                     //'id',
-                    'nome',
+                    {key: 'nome', label: 'Curso'},
+                    {key: 'usuario_criacao_nome', label: 'Professor'},
                     {key: 'categoria_nome', label: 'Categoria'},
                     {key: 'descricao', label: 'Descrição'},
-                    {key: 'dth_criacao', label: 'Criação'},
-                    'imagem',
+                    // {key: 'dth_criacao', label: 'Criação'},
+                    // 'imagem',
                     {key: 'acoes', label: 'Ações'},
                 ],
 
                 //bootstrap-vue pagination
-                perPage: 10,
+                perPage: 5,
                 currentPage: 1,
 
                 //bootstrap-vue select
@@ -122,8 +125,8 @@
             },
 
             ...mapState({
-                // cursos: state => state.cursos.all,
-                cursos: state => state.cursos.cursosDoProfessor,
+                cursos: state => state.cursos.all,
+                // cursos: state => state.cursos.cursosDoProfessor,
                 items_fk_1: state => state.categorias.all,
                 items_fk_2: state => state.usuarios.all
 
@@ -179,7 +182,7 @@
 
             async onEdit() {
                 this.$root.$emit('editar', this.selected);
-                window.scrollTo({top:0,left: 0,behavior: 'smooth'});
+                //window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
             async onDelete() {

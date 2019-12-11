@@ -18,10 +18,10 @@ export default new Vuex.Store({
     state: {
         //vuex state would hold our authentication status, jwt token and user information.
         status: '',
-        token: sessionStorage.getItem('token') || '',
+        token: localStorage.getItem('token') || '',
         user: {},
-        perfil: sessionStorage.getItem('perfil') || '',
-        userId: sessionStorage.getItem('userId') || '',
+        perfil: localStorage.getItem('perfil') || '',
+        userId: localStorage.getItem('userId') || '',
     },
 
     mutations: {
@@ -66,10 +66,10 @@ export default new Vuex.Store({
                         const username = resp.data.nome
                         const perfil = resp.data.perfil
 
-                        sessionStorage.setItem('token', token)
+                        localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
-                        sessionStorage.setItem('perfil', perfil)
-                        sessionStorage.setItem('userId', userId)
+                        localStorage.setItem('perfil', perfil)
+                        localStorage.setItem('userId', userId)
                         let payload = {
                             "token": token,
                             "username": username,
@@ -89,9 +89,9 @@ export default new Vuex.Store({
                     })
                     .catch(err => {
                         commit('auth_error')
-                        sessionStorage.removeItem('token')
-                        sessionStorage.removeItem('perfil')
-                        sessionStorage.removeItem('userId')
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('perfil')
+                        localStorage.removeItem('userId')
                         reject(err)
                     })
             })
@@ -100,10 +100,10 @@ export default new Vuex.Store({
         logout({commit}){
             return new Promise((resolve) => {
                 commit('logout')
-                window.console.log('Limpando sessionStorage')
-                sessionStorage.removeItem('token')
-                sessionStorage.removeItem('perfil')
-                sessionStorage.removeItem('userId')
+                window.console.log('Limpando localStorage')
+                localStorage.removeItem('token')
+                localStorage.removeItem('perfil')
+                localStorage.removeItem('userId')
                 delete axios.defaults.headers.common['Authorization']
                 resolve()
             })

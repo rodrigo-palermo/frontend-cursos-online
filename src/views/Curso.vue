@@ -1,15 +1,19 @@
 <template>
     <div class="curso">
-
-        <h3>Curso</h3>
-        <curso-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"
-        ></curso-form>
-        <br>
-        <hr>
-        <h3>Lista</h3>
-        <curso-list v-bind:is-itens-refreshed-outside="isItensRefreshed"
-        ></curso-list>
-
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3>Curso</h3>
+                    <curso-form
+                    ></curso-form>
+                </b-col>
+                <b-col>
+                    <h3>Lista</h3>
+                    <curso-list
+                    ></curso-list>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div id="lista">
-        <span v-if="loading"> Carregando dados...</span>
+        <span v-if="loading"> </span>
         <span v-else><br></span>
 <!--        v-if="showed && !saveUpdateErrored"-->
         <div v-if="true" class="overflow-auto">
@@ -9,7 +9,8 @@
                           :per-page="perPage"
                           aria-controls="itemsList"
                           size="sm"
-            >
+            align="right"
+>
             </b-pagination>
 
 <!--            <p class="mt-3">Página atual: {{ currentPage }}</p>-->
@@ -71,27 +72,13 @@
             }
         },
 
-        computed: {
-            rows() {
-                return this.turmasDoCurso.length
-            },
-
-            ...mapState({
-                turmasDoCurso: state => state.turmas.turmasDoCurso,
-                currentCursoId: state => state.cursos.currentCursoId
-            }),
-            ...mapGetters({
-                turmasFiltro: 'getTurmas'
-            })
-        },
-
         created() {
             if(this.currentCursoId)
                 this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
-            else
-                this.$store.state.turmasDoCurso = []
+            // else
+            //     this.$store.state.turmasDoCurso = []
             // window.console.log('LIST Created: CURRENT turmasDoCurso:', this.$store.state.turmasDoCurso);
-            window.console.log('LIST Created: CURRENT State turmasDoCurso:', this.$store.state.turmasDoCurso);
+            window.console.log('LIST Created: CURRENT State turmasDoCurso:', this.turmasDoCurso);
         },
 
         data() {
@@ -108,8 +95,8 @@
                     'nome',
                     {key: 'curso_nome', label: 'Curso'},
                     {key: 'descricao', label: 'Descrição'},
-                    {key: 'dth_criacao', label: 'Criação'},
-                    'imagem',
+                    // {key: 'dth_criacao', label: 'Criação'},
+                    // 'imagem',
                     {key: 'acoes', label: 'Ações'},
                 ],
 
@@ -123,19 +110,34 @@
             }
         },
 
+        computed: {
+            rows() {
+                return this.turmasDoCurso.length
+            },
+
+            ...mapState({
+                turmas: state => state.turmas.all,
+                turmasDoCurso: state => state.turmas.turmasDoCurso,
+                currentCursoId: state => state.turmas.currentCursoId
+            }),
+            ...mapGetters({
+                turmasFiltro: 'getTurmas'
+            })
+        },
+
         methods: {
             // ...mapActions({'refreshTurmas': 'turmas/getAllCategories'}),
-            inicializar() {
-                //para reinicializar variáveis se ação vinda de outro componente
-                this.loading = true;
-                // this.saveUpdateErrored = false;
-                if(this.saveUpdateErrored){
-                    this.showed = false;
-                    // this.items = [];
-                    // window.alert('Inicializanso show e saveUpdateErrored. Esvaziando itens.');
-                    this.saveUpdateErrored = false;
-                }
-            },
+            // inicializar() {
+            //     //para reinicializar variáveis se ação vinda de outro componente
+            //     this.loading = true;
+            //     // this.saveUpdateErrored = false;
+            //     if(this.saveUpdateErrored){
+            //         this.showed = false;
+            //         // this.items = [];
+            //         // window.alert('Inicializanso show e saveUpdateErrored. Esvaziando itens.');
+            //         this.saveUpdateErrored = false;
+            //     }
+            // },
 
             onRowSelected(item) {
                 this.selected = item[0];
@@ -145,18 +147,27 @@
                 //this.editingItem = this.selected;
                 //window.console.log('Enviado item para editar: ', this.editingItem);
                 this.$root.$emit('editar', this.selected);
-                window.scrollTo({top:0,left: 0,behavior: 'smooth'});
+                //window.scrollTo({top:0,left: 0,behavior: 'smooth'});
             },
 
             async onDelete() {
-                this.$store.dispatch('turmas/deleteTurma', this.selected.id);
-                window.console.log('Funcao deletar. Id enviado ao WS: ', this.selected.id)
+                this.$store.dispatch('turmas/deleteTurmaDoCurso', {"id_turma": this.selected.id, "id_curso": this.selected.id_curso});
+                // if(this.selected.id_curso) { not working from outside
+                //     this.$store.dispatch('turmas/getAllTurmasDoCurso', this.selected.id_curso);
+                //     this.$store.dispatch('turmas/getAllTurmasDoCurso', this.selected.id_curso);
+                //     window.alert('teste');
+                // }
+                window.console.log('Funcao deletar. Id enviado ao WS: ', this.selected.id);
+                window.console.log('Funcao deletar. Atualiza lista. Id Curso atual - STORE: ', this.currentCursoId);
+                window.console.log('Funcao deletar. Atualiza lista. Id Curso atual - SELECT: ', this.selected.id_curso);
+                // if(this.currentCursoId)
+                //     this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
             }
         },
 
         watch: {
             isItensRefreshedOutside: function() {
-                this.inicializar();
+                // this.inicializar();
                 window.console.log('Data changed!', this.isItensRefreshedOutside);
             }
         }

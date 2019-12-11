@@ -12,8 +12,20 @@
                     ></b-form-input>
                 </b-form-group>
 
+                <b-form-group v-if="this.$store.getters.isAdmin">
+                    <select @change="onSelected" required id="input-61" class="custom-select" v-model="item.id_curso">
+                        <option value="" disabled>Selecione um Curso</option>
+                        <option v-for="curso in cursos"
+                                :key="curso.id"
+                                :value="curso.id"
+                                selected="item.id_curso === curso.id">
+                            {{ curso.nome }}
+                        </option>
+                    </select>
+                </b-form-group>
+
                 <b-form-group v-if="this.$store.getters.isProf">
-                    <select @change="onSelected" required id="input-6" class="custom-select" v-model="item.id_curso">
+                    <select @change="onSelected" required id="input-62" class="custom-select" v-model="item.id_curso">
                         <option value="" disabled>Selecione um Curso</option>
                         <option v-for="curso in cursosDoProfessor"
                                 :key="curso.id"
@@ -29,7 +41,7 @@
                             id="input-2"
                             v-model="item.nome"
                             required
-                            placeholder="Nome"
+                            placeholder="Nome da Turma"
                     ></b-form-input>
                 </b-form-group>
 
@@ -60,14 +72,14 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-file
-                        v-model="file"
-                        accept="image/jpeg, image/png, image/gif"
-                        :state="Boolean(file)"
-                        placeholder="Escolha uma imagem"
-                        drop-placeholder="Jogue o arquivo aqui..."
-                ></b-form-file>
-                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div><br>
+<!--                <b-form-file-->
+<!--                        v-model="file"-->
+<!--                        accept="image/jpeg, image/png, image/gif"-->
+<!--                        :state="Boolean(file)"-->
+<!--                        placeholder="Escolha uma imagem"-->
+<!--                        drop-placeholder="Jogue o arquivo aqui..."-->
+<!--                ></b-form-file>-->
+<!--                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div><br>-->
 
                 <b-button-group>
                     <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
@@ -90,21 +102,23 @@
         },
 
         computed: mapState({
-            turmasDoCurso: state => state.turmas.turmasDoCurso,
+            cursos: state => state.cursos.all,
             cursosDoProfessor: state => state.cursos.cursosDoProfessor,
-            lastCursoIdInserted: state => state.cursos.lastCursoIdInserted
+            // lastCursoIdInserted: state => state.cursos.lastCursoIdInserted
+            currentCursoId: state => state.turmas.currentCursoId
         }),
 
         created() {
-            if(this.item.id_curso)
-                this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
+            if(this.currentCursoId)
+                this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
             this.$store.dispatch('cursos/getAllCursosDoProfessor', this.$store.getters.userId);
+            this.$store.dispatch('cursos/getAllCursos');
         },
 
         data() {
             return {
                 app_env: process.env.VUE_APP_ENV_SUBTITLE,
-                file: null,
+                // file: null,
                 item: {
                     nome: '',
                     descricao: '',
@@ -120,10 +134,8 @@
 
         methods: {
             onSelected(){
-
-                // this.item.id_curso = ;
                 this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
-                // window.console.log('CURRENT CURSO ID - mapStore:', this.currentCursoId);
+                window.console.log('CURRENT CURSO ID - mapStore:', this.currentCursoId);
                 // window.console.log('CURRENT CURSO ID - local item:', this.item.id_curso);
             },
 
@@ -134,37 +146,36 @@
                     let date = new Date(Date.now());
                     this.item.dth_criacao = date.toLocaleString();
                     this.$store.dispatch('turmas/submitTurma', this.item);
+                    this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
                     window.console.log('Funcao salvar. Enviando objeto ao WS: ',this.item);
-                    let id_professor = this.$store.getters.userId;
-                    let item_turmaTemusuario = {"id_turma": this.item.id, "id_usuario": id_professor};
-                    this.$store.dispatch('turmastemusuarios/submitTurmaTemUsuario', item_turmaTemusuario);
-                    window.console.log('Funcao atribuir Professor em turma.');
-                    this.verifyOperation();
-                    this.limpar();
-                    // this.refresh
-
+                    // let id_professor = this.$store.getters.userId;
+                    // let item_turmaTemusuario = {"id_turma": this.item.id, "id_usuario": id_professor};
+                    // this.$store.dispatch('turmastemusuarios/submitTurmaTemUsuario', item_turmaTemusuario);
+                    window.console.log('Funcao atribuir Professor em turma. IMPLEMENTAR');
 
                 } else {
                     // EDIT
                     this.$store.dispatch('turmas/updateTurma', this.item);
+                    this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
                     window.console.log('Funcao atualizar. Enviando objeto ao WS: ', this.item)
-                    this.verifyOperation();
-                    this.limpar();
                 }
+                this.verifyOperation();
+                this.limparExcetoCursoId();
             },
 
             limpar: function () {
                 this.item = {'id_curso': ''};
             },
 
-            limparManterSelect: function () {
-                // this.item = {'id_curso': this.lastCursoIdInserted};
+            limparExcetoCursoId: function () {
+                this.item = {'id_curso': this.item.id_curso};
+                this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
             },
 
             verifyOperation() {
                 this.loading = false;
                 if(!this.errored) {
-                    window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
+                    //window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
                     // this.$emit('refreshItens');
                 } else {
                     window.console.log('Operação cancelada.');

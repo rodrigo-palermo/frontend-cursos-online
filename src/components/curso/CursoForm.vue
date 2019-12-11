@@ -43,7 +43,7 @@
                             id="input-2"
                             v-model="item.nome"
                             required
-                            placeholder="Nome"
+                            placeholder="Nome do Curso"
                     ></b-form-input>
                 </b-form-group>
 
@@ -74,14 +74,14 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-file
-                            v-model="file"
-                            accept="image/jpeg, image/png, image/gif"
-                            :state="Boolean(file)"
-                            placeholder="Escolha uma imagem"
-                            drop-placeholder="Jogue o arquivo aqui..."
-                ></b-form-file>
-                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div><br>
+<!--                <b-form-file-->
+<!--                            v-model="file"-->
+<!--                            accept="image/jpeg, image/png, image/gif"-->
+<!--                            :state="Boolean(file)"-->
+<!--                            placeholder="Escolha uma imagem"-->
+<!--                            drop-placeholder="Jogue o arquivo aqui..."-->
+<!--                ></b-form-file>-->
+<!--                <div class="mt-3">Arquivo escolhido: {{ file ? file.name : '' }}</div><br>-->
 
                 <b-button-group>
                     <b-button type="submit" variant="primary">{{ item.id == null ? 'Adicionar' : 'Atualizar' }}</b-button>
@@ -119,7 +119,7 @@
 
         data() {
             return {
-                file: null,
+                // file: null,
                 item: {
                     nome: '',
                     id_categoria: '',
@@ -171,7 +171,7 @@
             verifyOperation() {
                 this.loading = false;
                 if(!this.errored) {
-                    window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
+                    //window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
                     this.$emit('refreshItens');
                 } else {
                     window.console.log('Operação cancelada.');

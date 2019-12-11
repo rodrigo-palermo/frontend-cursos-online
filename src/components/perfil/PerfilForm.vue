@@ -88,7 +88,7 @@
             verifyOperation() {
                 this.loading = false;
                 if(!this.errored) {
-                    window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
+                    //window.scrollTo({top:9000,left: 0,behavior: 'smooth'});
                     this.$emit('refreshItens');
                 } else {
                     window.console.log('Operação cancelada.');
