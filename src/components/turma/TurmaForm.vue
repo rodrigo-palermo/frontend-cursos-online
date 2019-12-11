@@ -19,10 +19,21 @@
                                 :key="curso.id"
                                 :value="curso.id"
                                 selected="item.id_curso === curso.id">
-                            {{ curso.nome }}
+                            {{ curso.nome }}  (Docente: {{ curso.usuario_criacao_nome}})
                         </option>
                     </select>
                 </b-form-group>
+
+<!--                <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-611" label-for="input-611">-->
+<!--                    <b-form-input-->
+<!--                            id="input-611"-->
+<!--                            v-model="professor_nome_titular"-->
+<!--                            required-->
+<!--                            placeholder="Professor titular"-->
+<!--                            aria-disabled="true"-->
+<!--                            disabled-->
+<!--                    ></b-form-input>-->
+<!--                </b-form-group>-->
 
                 <b-form-group v-if="this.$store.getters.isProf">
                     <select @change="onSelected" required id="input-62" class="custom-select" v-model="item.id_curso">
@@ -105,12 +116,13 @@
             cursos: state => state.cursos.all,
             cursosDoProfessor: state => state.cursos.cursosDoProfessor,
             // lastCursoIdInserted: state => state.cursos.lastCursoIdInserted
-            currentCursoId: state => state.turmas.currentCursoId
+            turmasDoCurso: state => state.turmas.turmasDoCurso,
+            // currentCursoId: state => state.turmas.currentCursoId,
         }),
 
         created() {
-            if(this.currentCursoId)
-                this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
+            // if(this.currentCursoId)
+            //     this.$store.dispatch('turmas/getAllTurmasDoCurso', this.currentCursoId);
             this.$store.dispatch('cursos/getAllCursosDoProfessor', this.$store.getters.userId);
             this.$store.dispatch('cursos/getAllCursos');
         },
@@ -124,7 +136,8 @@
                     descricao: '',
                     id_curso: '',
                     dth_criacao: '',
-                    imagem: ''
+                    imagem: '',
+                    professor_nome: ''
                 },
                 loading: true,
                 errored: false,
@@ -135,7 +148,8 @@
         methods: {
             onSelected(){
                 this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
-                window.console.log('CURRENT CURSO ID - mapStore:', this.currentCursoId);
+                // window.console.log('CURRENT CURSO ID - mapStore:', this.currentCursoId);
+                // this.professor_nome_titular = this.currentProfessorNome;
                 // window.console.log('CURRENT CURSO ID - local item:', this.item.id_curso);
             },
 

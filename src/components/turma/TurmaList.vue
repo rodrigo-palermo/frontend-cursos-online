@@ -94,6 +94,7 @@
                     //'id',
                     'nome',
                     {key: 'curso_nome', label: 'Curso'},
+                    {key: 'professor_nome', label: 'Professor'},
                     {key: 'descricao', label: 'Descrição'},
                     // {key: 'dth_criacao', label: 'Criação'},
                     // 'imagem',

@@ -3,13 +3,14 @@
         <b-container>
             <b-row>
                 <b-col>
-                    <h3>Turma</h3>
+                    <h3>Cadastro de Turmas</h3>
                     <p>Selecione o curso para criar ou ver as turmas existentes.</p>
                     <turma-form
                     ></turma-form>
                 </b-col>
                 <b-col>
-                    <h3></h3>
+                    <h4>Turmas</h4>
+                    <p>Selecione uma turma para editar ou realizar matículas.</p>
                     <turma-list
                     ></turma-list>
                 </b-col>
