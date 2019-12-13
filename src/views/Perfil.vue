@@ -1,17 +1,19 @@
 <template>
     <div class="perfil">
-
-        <h3>Perfil de usuário</h3>
-<!--        <perfil-form v-on:refreshItens="isItensRefreshed = !isItensRefreshed"-->
-        <perfil-form
-        ></perfil-form>
-        <br>
-        <hr>
-        <h3>Lista</h3>
-<!--        <perfil-list v-bind:is-itens-refreshed-outside="isItensRefreshed"-->
-        <perfil-list
-        ></perfil-list>
-
+        <main>
+            <b-row>
+                <b-col lg="4">
+                    <h4>Cadastro de Perfil de Usuário</h4>
+                    <perfil-form
+                    ></perfil-form>
+                </b-col>
+                <b-col>
+                    <h4>Lista</h4>
+                    <perfil-list
+                    ></perfil-list>
+                </b-col>
+            </b-row>
+        </main>
     </div>
 </template>
 

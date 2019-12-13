@@ -89,7 +89,7 @@
                 </b-button-group>
             </b-form>
         </div>
-        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Item a criar: {{ item }}</b-alert>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isDesenv">Item a criar: {{ item }}</b-alert>
     </div>
 
 </template>

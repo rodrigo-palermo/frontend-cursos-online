@@ -1,19 +1,19 @@
 <template>
     <div class="categoria">
-        <b-container>
+        <main>
             <b-row>
-                <b-col>
-                    <h3>Categoria de curso</h3>
+                <b-col lg="4">
+                    <h4>Categorias de curso</h4>
                     <categoria-form
                     ></categoria-form>
                 </b-col>
                 <b-col>
-                    <h3>Lista</h3>
+                    <h4>Lista</h4>
                     <categoria-list
                     ></categoria-list>
                 </b-col>
             </b-row>
-        </b-container>
+        </main>
     </div>
 </template>
 

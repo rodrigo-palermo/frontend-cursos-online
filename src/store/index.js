@@ -22,6 +22,7 @@ export default new Vuex.Store({
         user: {},
         perfil: localStorage.getItem('perfil') || '',
         userId: localStorage.getItem('userId') || '',
+        env_app: process.env.VUE_APP_ENV_SUBTITLE
     },
 
     mutations: {
@@ -139,7 +140,8 @@ export default new Vuex.Store({
         isAdmin: state => state.perfil === 'Administrador',
         isProf: state => state.perfil === 'Professor',
         isAluno: state => state.perfil === 'Aluno',
-        userId: state => state.userId
+        userId: state => state.userId,
+        isDesenv: state => state.env_app === 'Desenvolvimento',
 
     }
 })

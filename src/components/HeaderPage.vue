@@ -56,15 +56,15 @@
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
-                            Conta
+                            {{ isLoggedIn ? 'Sair' : 'Entrar' }}
                         </template>
                         <div v-if="isLoggedIn">
 <!--                            <b-dropdown-item to="#">Perfil</b-dropdown-item>-->
-                            <b-dropdown-item @click="logout">Sair</b-dropdown-item>
+                            <b-dropdown-item @click="logout">Encerrar Sessão</b-dropdown-item>
                         </div>
                         <div v-else>
                             <b-dropdown-item to="/login">Login</b-dropdown-item>
-                            <b-dropdown-item to="/register">Registrar-se</b-dropdown-item>
+                            <b-dropdown-item to="/register">Registrar-se (Aluno)</b-dropdown-item>
                         </div>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>

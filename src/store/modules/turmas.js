@@ -3,8 +3,8 @@ import cursosonline from "../../api/cursosonline";
 // initial state
 const state = () => ({
     all: [],
-    turmasDoCurso: []
-    // currentCursoId: '',
+    turmasDoCurso: [],
+    currentTurmaId: null,
 });
 
 // getters
@@ -68,10 +68,9 @@ const mutations = {
         state.turmasDoCurso = turmas;
     },
 
-    // setCurrentCursoId (state, id) {
-    //     state.currentCursoId = id;
-    //     window.console.log('MUTATION - id_curso: ' + id)
-    // }
+    setCurrentTurmaId (state, id) {
+        state.currentTurmaId = id;
+    }
 
 
 

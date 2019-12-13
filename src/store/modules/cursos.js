@@ -4,7 +4,7 @@ import cursosonline from "../../api/cursosonline";
 const state = () => ({
     all: [],
     cursosDoProfessor: [],
-    lastCursoIdInserted: null
+    currentCursoId: null
 });
 
 // getters
@@ -62,8 +62,8 @@ const mutations = {
         state.cursosDoProfessor = cursos;
     },
 
-    setLastCursoIdInserted (state, id) {
-        state.lastCursoIdInserted = id;
+    setCurrentCursoId (state, id) {
+        state.currentCursoId = id;
     }
 
 };

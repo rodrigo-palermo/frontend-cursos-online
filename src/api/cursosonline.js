@@ -333,6 +333,32 @@ export default {
         // this.showed = this.saveUpdateErrored === false;
     },
 
+    getAlunosDaTurma(id, callback){
+        axios.get(url+'/turmatemusuario/alunosdaturma/'+id)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
+    getAlunosHabilitadosParaTurma(id, callback){
+        axios.get(url+'/turmatemusuario/alunoshabilitadosparaturma/'+id)
+            .then( response => callback(response.data))
+            .catch(error => {
+                window.console.log(error);
+                // this.saveUpdateErrored = true;
+            })
+            .finally(() => this.loading = false,
+                // (this.saveUpdateErrored === true)?(this.showed = false):(this.showed = true)
+            );
+        // this.showed = this.saveUpdateErrored === false;
+    },
+
     postTurmaTemUsuario(item, callback){
         axios.post(url+'/turmatemusuario', item)
             .then( response => callback(response.data))
@@ -360,8 +386,8 @@ export default {
         // this.showed = this.saveUpdateErrored === false;
     },
 
-    delTurmaTemUsuario(id, callback){
-        axios.delete(url+'/turmatemusuario/'+id)
+    delTurmaTemUsuario(item, callback){
+        axios.post(url+'/turmatemusuario/removerusuariodaturma', item)
             .then( response => callback(response.data))
             .catch(error => {
                 window.console.log(error);

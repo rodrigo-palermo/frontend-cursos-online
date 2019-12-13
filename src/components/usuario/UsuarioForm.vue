@@ -58,7 +58,7 @@
                 </b-button-group>
             </b-form>
         </div>
-        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Item a criar: {{ item }}</b-alert>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isDesenv">Item a criar: {{ item }}</b-alert>
     </div>
 </template>
 
@@ -89,6 +89,7 @@
                     id_perfil: "",
                     senha: '',
                     email: '',
+                    id_endereco: 1 //mock de endereco
                 },
                 loading: true,
                 errored: false,
@@ -117,7 +118,7 @@
             },
 
             limpar: function () {
-                this.item = {"id_perfil": ""};
+                this.item = {"id_perfil": "", "id_endereco": 1,}; //mock de endereco
             },
 
             verifyOperation() {

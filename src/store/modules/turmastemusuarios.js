@@ -3,7 +3,9 @@ import cursosonline from "../../api/cursosonline";
 // initial state
 const state = () => ({
     all: [],
-    turmasTemUsuariosDoCurso: []
+    turmasTemUsuariosDoCurso: [],
+    alunosDaTurma: [],
+    alunosHabilitadosParaTurma: []
 });
 
 // getters
@@ -12,9 +14,9 @@ const getters = {
         return state.all
     },
 
-    getTurmasTemUsuariosDoCurso: state => {
-        return state.turmasTemUsuariosDoCurso
-    }
+    // getTurmasTemUsuariosDoCurso: state => {
+    //     return state.turmasTemUsuariosDoCurso
+    // }
 };
 
 // actions
@@ -25,15 +27,31 @@ const actions = {
         })
     },
 
-    getAllTurmasTemUsuariosDoCurso ({ commit }, id) {
-        cursosonline.getTurmasTemUsuariosDoCurso( id, turmasTemUsuarios => {
-            commit('setTurmasTemUsuariosDoCurso', turmasTemUsuarios)
+    // getAllTurmasTemUsuariosDoCurso ({ commit }, id) {
+    //     cursosonline.getTurmasTemUsuariosDoCurso( id, turmasTemUsuarios => {
+    //         commit('setTurmasTemUsuariosDoCurso', turmasTemUsuarios)
+    //     })
+    // },
+
+    getAllAlunosDaTurma ({ commit }, id) {
+        cursosonline.getAlunosDaTurma( id, turmasTemUsuarios => {
+            commit('setAlunosDaTurma', turmasTemUsuarios)
+        })
+    },
+
+    getAllAlunosHabilitadosParaTurma ({ commit }, id) {
+        cursosonline.getAlunosHabilitadosParaTurma( id, turmasTemUsuarios => {
+            commit('setAlunosHabilitadosParaTurma', turmasTemUsuarios)
         })
     },
 
     submitTurmaTemUsuario ({ dispatch }, item) {
         cursosonline.postTurmaTemUsuario( item,
-            () => dispatch('getAllTurmasTemUsuarios')
+            () => {
+            dispatch('getAllTurmasTemUsuarios');
+            dispatch('getAllAlunosDaTurma',item.id_turma);
+            dispatch('getAllAlunosHabilitadosParaTurma',item.id_turma)
+        }
         )
     },
 
@@ -45,11 +63,12 @@ const actions = {
 
     deleteTurmaTemUsuario ({ dispatch }, item) {
         cursosonline.delTurmaTemUsuario( item,
-            () => dispatch('getAllTurmasTemUsuarios')
-
-        );
-        dispatch('getAllTurmasTemUsuariosDoCurso', item.id_curso)
-
+            () => {
+                dispatch('getAllTurmasTemUsuarios');
+                dispatch('getAllAlunosDaTurma',item.id_turma);
+                dispatch('getAllAlunosHabilitadosParaTurma',item.id_turma)
+            }
+        )
     },
 
 };
@@ -62,6 +81,14 @@ const mutations = {
 
     setTurmasTemUsuariosDoCurso (state, turmasTemUsuarios) {
         state.turmasTemUsuariosDoCurso = turmasTemUsuarios;
+    },
+
+    setAlunosDaTurma (state, alunosMatriculados) {
+        state.alunosDaTurma = alunosMatriculados;
+    },
+
+    setAlunosHabilitadosParaTurma (state, alunosHabilitados) {
+        state.alunosHabilitadosParaTurma = alunosHabilitados;
     },
 
 

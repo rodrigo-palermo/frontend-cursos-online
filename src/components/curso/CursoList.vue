@@ -19,6 +19,7 @@
 
             <b-table id="itemsList" striped hover
                      :fields="fields"
+                     :sort-by.sync="sortBy"
                      :items="cursos"
                      :per-page="perPage"
                      :current-page="currentPage"
@@ -53,7 +54,7 @@
         </div>
 
 <!--        <p>is Linha selecionada: {{ rowSelected }}</p>-->
-        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isAdmin">Linha selecionada: {{ selected }}</b-alert>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isDesenv">Linha selecionada: {{ selected }}</b-alert>
     </div>
 </template>
 
@@ -93,13 +94,14 @@
                 deleteErrored: false,
 
                 //bootstrap-vue table
+                sortBy: 'id',
                 fields: [
                     //'id',
-                    {key: 'nome', label: 'Curso'},
-                    {key: 'usuario_criacao_nome', label: 'Professor'},
-                    {key: 'categoria_nome', label: 'Categoria'},
-                    {key: 'descricao', label: 'Descrição'},
-                    // {key: 'dth_criacao', label: 'Criação'},
+                    {key: 'nome', label: 'Curso', sortable: true},
+                    {key: 'usuario_criacao_nome', label: 'Professor', sortable: true},
+                    {key: 'categoria_nome', label: 'Categoria', sortable: true},
+                    {key: 'descricao', label: 'Descrição', sortable: true},
+                    // {key: 'dth_criacao', label: 'Criação', sortable: true},
                     // 'imagem',
                     {key: 'acoes', label: 'Ações'},
                 ],

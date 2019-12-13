@@ -1,21 +1,21 @@
 <template>
     <div class="turma">
-        <b-container>
+        <main>
             <b-row>
-                <b-col>
-                    <h3>Cadastro de Turmas</h3>
-                    <p>Selecione o curso para criar ou ver as turmas existentes.</p>
+                <b-col lg="3">
+                    <h4>Cadastro de Turmas</h4>
+                    <p>Selecione o curso para criar/exibir turmas</p>
                     <turma-form
                     ></turma-form>
                 </b-col>
                 <b-col>
                     <h4>Turmas</h4>
-                    <p>Selecione uma turma para editar ou realizar matículas.</p>
+                    <p>Selecione uma turma para editar ou inscrever/remover alunos</p>
                     <turma-list
                     ></turma-list>
                 </b-col>
             </b-row>
-        </b-container>
+        </main>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <section>
         <div id="formulario">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                 <b-form-group v-if="this.$store.getters.isAdmin" id="input-group-1" label-for="input-1">
@@ -98,8 +98,8 @@
                 </b-button-group>
             </b-form>
         </div>
-        <b-alert class="admin-alert" show variant="danger" v-if="app_env">Item a criar: {{ item }}</b-alert>
-    </div>
+        <b-alert class="admin-alert" show variant="danger" v-if="this.$store.getters.isDesenv">Item a criar: {{ item }}</b-alert>
+    </section>
 </template>
 
 <script>
@@ -115,7 +115,7 @@
         computed: mapState({
             cursos: state => state.cursos.all,
             cursosDoProfessor: state => state.cursos.cursosDoProfessor,
-            // lastCursoIdInserted: state => state.cursos.lastCursoIdInserted
+            currentCursoId: state => state.cursos.currentCursoId,
             turmasDoCurso: state => state.turmas.turmasDoCurso,
             // currentCursoId: state => state.turmas.currentCursoId,
         }),
@@ -129,9 +129,8 @@
 
         data() {
             return {
-                app_env: process.env.VUE_APP_ENV_SUBTITLE,
                 // file: null,
-                item: {
+                item: {  //deve ser reutilizado em função Limpar, evitando redimensionamento das divs List e Form em main
                     nome: '',
                     descricao: '',
                     id_curso: '',
@@ -148,6 +147,7 @@
         methods: {
             onSelected(){
                 this.$store.dispatch('turmas/getAllTurmasDoCurso', this.item.id_curso);
+                this.$store.commit('cursos/setCurrentCursoId', this.item.id_curso);
                 // window.console.log('CURRENT CURSO ID - mapStore:', this.currentCursoId);
                 // this.professor_nome_titular = this.currentProfessorNome;
                 // window.console.log('CURRENT CURSO ID - local item:', this.item.id_curso);
@@ -178,7 +178,15 @@
             },
 
             limpar: function () {
-                this.item = {'id_curso': ''};
+                //usar os mesmos
+                this.item = {  //deve ser reutilizado em função Limpar, evitando redimensionamento das divs List e Form em main
+                    nome: '',
+                        descricao: '',
+                        id_curso: '',
+                        dth_criacao: '',
+                        imagem: '',
+                        professor_nome: ''
+                }
             },
 
             limparExcetoCursoId: function () {
@@ -199,6 +207,7 @@
             onReset(evt) {
                 evt.preventDefault()
                 // Reset our form values
+                this.$store.commit('cursos/setCurrentCursoId', null);
                 this.limpar()
                 // Trick to reset/clear native browser form validation state
                 this.show = false

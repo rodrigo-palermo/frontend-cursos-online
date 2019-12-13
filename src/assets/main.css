@@ -107,3 +107,15 @@ footer{
 /*	*/
 /*}*/
 
+.col, .col-lg-3, .col-lg-4 {
+	background-color: #f5f5f5;
+	box-shadow: 0.5px 0.5px 1px #aaaaaa;
+	margin: 5px;
+	padding: 5px 20px;
+}
+
+.inscricaoCollapse {
+	background-color: #ffffff;
+	border: 0.5px #afafaf solid;
+	box-shadow: 0.5px 0.5px 0.5px #aaaaaa;
+}

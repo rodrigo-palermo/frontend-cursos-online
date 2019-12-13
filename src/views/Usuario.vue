@@ -1,19 +1,19 @@
 <template>
     <div class="usuario">
-        <b-container>
+        <main>
             <b-row>
-                <b-col>
-                    <h3>Cadastro de Usuários</h3>
+                <b-col lg="3">
+                    <h4>Cadastro de Usuários</h4>
                     <usuario-form
                     ></usuario-form>
                 </b-col>
                 <b-col>
-                    <h3>Lista</h3>
+                    <h4>Lista</h4>
                     <usuario-list
                     ></usuario-list>
                 </b-col>
             </b-row>
-        </b-container>
+        </main>
     </div>
 </template>
 
